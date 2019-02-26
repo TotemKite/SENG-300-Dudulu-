@@ -68,6 +68,11 @@ public class Signup {
 		rdbtnAuthors.setBounds(166, 344, 109, 23);
 		frame.getContentPane().add(rdbtnAuthors);
 		
+		//Name the RadioButton
+		rdbtnAdministrator.setActionCommand("administrator");
+		rdbtnReviewer.setActionCommand("reviewer");
+		rdbtnAuthors.setActionCommand("authors");
+		
 		//Group the radio buttons.
 		ButtonGroup group = new ButtonGroup();
 		group.add(rdbtnAdministrator);
@@ -99,11 +104,17 @@ public class Signup {
 		JButton btnComfirm = new JButton("Comfirm");
 		btnComfirm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				group.getSelection();
+				String selection = group.getSelection().getActionCommand();
+				//System.out.println(selection);
+				//if(selection == )
+				
 			}
 		});
-		btnComfirm.setBounds(73, 429, 120, 41);
+		btnComfirm.setBounds(21, 428, 120, 41);
 		frame.getContentPane().add(btnComfirm);
+		
+		
+		
 		
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
@@ -111,7 +122,18 @@ public class Signup {
 				frame.dispose();
 			}
 		});
-		btnCancel.setBounds(215, 428, 134, 41);
+		btnCancel.setBounds(297, 428, 134, 41);
 		frame.getContentPane().add(btnCancel);
+		
+		JButton btnReset = new JButton("Reset");
+		btnReset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				txtUserEmail.setText(null);
+				txtPassword.setText(null);
+				group.clearSelection();
+			}
+		});
+		btnReset.setBounds(164, 428, 120, 41);
+		frame.getContentPane().add(btnReset);
 	}
 }
