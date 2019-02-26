@@ -153,12 +153,6 @@ public class Journal {
 	public void deleteJournal() {
 		File file = new File(this.title);
 		file.delete();
-		this.author = null;
-		this.version = -1;
-		this.title = null;
-		this.minorOpinions.clear(); // clear all the opinions for
-		this.majorOpinions.clear(); // the previous version
-		this.status = -1;
 	}
 
 }

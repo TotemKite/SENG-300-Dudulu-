@@ -158,7 +158,6 @@ public class Journal {
 		this.title = null;
 		this.minorOpinions.clear(); // clear all the opinions for
 		this.majorOpinions.clear(); // the previous version
-		this.status = -1;
 	}
 
 }
