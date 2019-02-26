@@ -1,0 +1,61 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class journal {
+	private String author;
+	private int version; // ask proof for detail
+	private ArrayList<String> majorOpinions = new ArrayList<>();
+	private ArrayList<String> minorOpinions = new ArrayList<>();
+	private String title;
+	
+	public journal(String authorName, String titleName) {
+		version = 0;
+		this.author = authorName;
+		this.title = titleName;
+	}
+	
+	public void setAuthor(String authorName) {
+		this.author = authorName;
+	}
+	
+	public String getAuthor() {
+		return this.author;
+	}
+	
+//	public void intergardeVersion() {
+//		this.version++;
+//	}
+	
+	public int getVersion() {
+		return this.version;
+	}
+	
+	public void settitle(String titleName) {
+		this.title = titleName;
+	}
+	
+	public String gettitle() {
+		return this.title;
+	}
+	
+	public void addMajorOpinions(String majorOpinion) {
+		this.majorOpinions.add(majorOpinion);
+	}
+	
+	public ArrayList<String> getMajorOpinions() {
+		return this.majorOpinions;
+	}
+	
+	public void addMinorOpinions(String minorOpinion) {
+		this.minorOpinions.add(minorOpinion);
+	}
+	
+	public ArrayList<String> getMinorOpinions() {
+		return this.minorOpinions;
+	}
+	
+	public void submit() {
+		this.version++;
+	}
+	
+}

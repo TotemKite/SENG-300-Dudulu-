@@ -1,0 +1,14 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class test {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		ArrayList<String> a = new ArrayList<>();
+		a.add("q");
+		a.add("i");
+		System.out.println(a);
+	}
+
+}
