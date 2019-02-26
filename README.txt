@@ -7,3 +7,8 @@ to display the journal
 	String contentOfJournal = j.getJournal;
 to delete the journal
 	j.deleteJournal();
+
+
+
+NOTE:
+all the journal files will store inside iteration1/src/journals/
