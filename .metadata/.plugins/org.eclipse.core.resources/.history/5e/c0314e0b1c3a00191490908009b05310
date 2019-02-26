@@ -107,7 +107,6 @@ public class Journal {
 //		
 //	}
 
-	// get the journal content as string
 	public String getJournal() {
 		String thisJournal = "";
 		try {
@@ -131,7 +130,6 @@ public class Journal {
 
 	}
 
-	// create and write the journal content file
 	public void writeJournal(String content) {
 		String fileContent = content;
 
@@ -152,8 +150,6 @@ public class Journal {
 		
 	}
 	
-	// delete the whole journal and point author to null
-	// also delete the journal file
 	public void deleteJournal() {
 		File file = new File(this.title);
 		file.delete();

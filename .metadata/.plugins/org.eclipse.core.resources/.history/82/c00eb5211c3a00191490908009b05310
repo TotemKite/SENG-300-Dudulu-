@@ -152,8 +152,6 @@ public class Journal {
 		
 	}
 	
-	// delete the whole journal and point author to null
-	// also delete the journal file
 	public void deleteJournal() {
 		File file = new File(this.title);
 		file.delete();
