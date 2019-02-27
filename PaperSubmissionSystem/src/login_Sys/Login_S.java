@@ -27,8 +27,9 @@ public class Login_S {
 	private JFrame frame;
 	private JPasswordField txtPassword;
 	private JTextField txtUserEmail;
-	private String AuthorsInfoPath = "src/AccountInfo/authors.txt";
-	private String ReviewersFilePath = "src/AccountInfo/reviewers.txt";
+	private String AuthorsInfoPath = "resources/authors.txt";
+	private String ReviewersFilePath = "resources/reviewers.txt";
+	private String AdministratorPath = "resources/administrator.txt";
 
 	/**
 	 * Launch the application.
@@ -52,8 +53,10 @@ public class Login_S {
 	public Login_S() {
 		initialize();
 	}
-	
-	public static boolean checker(String useremail, String userpassword, String accountpath) {
+	/**
+	 * Create the boolean checker function for log-in.
+	 */
+	private static boolean checker(String useremail, String userpassword, String accountpath) {
 		String line = null;
 		boolean Value = false;
 		try {
@@ -64,6 +67,7 @@ public class Login_S {
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
 
 			while ((line = bufferedReader.readLine()) != null) {
+				// System.out.println("111");
 				// create a token based on
 				String[] token = line.split(";");
 				// because you know first and second word of each line in
@@ -72,7 +76,6 @@ public class Login_S {
 					Value = true;
 					return Value;
 				}
-				bufferedReader.close();
 			}
 			// Always close files.
 			bufferedReader.close();
@@ -81,11 +84,10 @@ public class Login_S {
 		} catch (IOException ex) {
 			System.out.println("Error reading file '" + accountpath + "'");
 			// Or we could just do this:
-			// ex.printStackTrace();
+			ex.printStackTrace();
 		}
 		return Value;
 	}
-
 
 	/**
 	 * Initialize the contents of the frame.
@@ -96,59 +98,59 @@ public class Login_S {
 		frame.setBounds(200, 200, 500, 342);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		
+
 		JLabel lbUserEmail = new JLabel("UserEmail");
 		lbUserEmail.setBounds(71, 64, 66, 14);
 		lbUserEmail.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		frame.getContentPane().add(lbUserEmail);
-		
+
 		JLabel lbPassword = new JLabel("Password");
 		lbPassword.setBounds(71, 119, 89, 23);
 		lbPassword.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		frame.getContentPane().add(lbPassword);
-		
+
 		txtPassword = new JPasswordField();
 		txtPassword.setBounds(212, 121, 86, 20);
 		frame.getContentPane().add(txtPassword);
-		
+
 		txtUserEmail = new JTextField();
 		txtUserEmail.setBounds(212, 62, 86, 20);
 		frame.getContentPane().add(txtUserEmail);
 		txtUserEmail.setColumns(10);
-		
+
 		JLabel lblNewLabel = new JLabel("Login System");
 		lblNewLabel.setBounds(190, 14, 176, 25);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		frame.getContentPane().add(lblNewLabel);
-		
+
 		JButton btnLogin = new JButton("Login");
 		btnLogin.setBounds(71, 211, 89, 23);
 		frame.getContentPane().add(btnLogin);
-		
+
 		JRadioButton rdbtnadministrator = new JRadioButton("administrator");
 		rdbtnadministrator.setBounds(71, 161, 97, 14);
 		rdbtnadministrator.setBackground(Color.PINK);
 		rdbtnadministrator.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		frame.getContentPane().add(rdbtnadministrator);
-		
+
 		JRadioButton rdbtnReviewer = new JRadioButton("reviewer");
 		rdbtnReviewer.setBounds(181, 161, 97, 14);
 		rdbtnReviewer.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		rdbtnReviewer.setBackground(Color.PINK);
 		frame.getContentPane().add(rdbtnReviewer);
-		
+
 		JRadioButton rdbtnAuthor = new JRadioButton("author");
 		rdbtnAuthor.setBounds(296, 161, 97, 14);
 		rdbtnAuthor.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		rdbtnAuthor.setBackground(Color.PINK);
 		frame.getContentPane().add(rdbtnAuthor);
-		
-		//Name the RadioButton
+
+		// Name the RadioButton
 		rdbtnadministrator.setActionCommand("administrator");
 		rdbtnReviewer.setActionCommand("reviewer");
 		rdbtnAuthor.setActionCommand("authors");
-		
-		//Group the radio buttons.
+
+		// Group the radio buttons.
 		ButtonGroup group = new ButtonGroup();
 		group.add(rdbtnadministrator);
 		group.add(rdbtnReviewer);
@@ -163,15 +165,15 @@ public class Login_S {
 			}
 		});
 		frame.getContentPane().add(btnReset);
-		
+
 		JSeparator separator = new JSeparator();
 		separator.setBounds(21, 192, 426, 2);
 		frame.getContentPane().add(separator);
-		
+
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setBounds(21, 37, 432, 2);
 		frame.getContentPane().add(separator_1);
-		
+
 		JButton btnSignup = new JButton("Sign up");
 		btnSignup.setBounds(341, 211, 89, 23);
 		btnSignup.addActionListener(new ActionListener() {
@@ -186,17 +188,23 @@ public class Login_S {
 				String password = String.copyValueOf(txtPassword.getPassword());
 				String username = txtUserEmail.getText();
 				String selection = group.getSelection().getActionCommand();
-				if (selection == "reviewers") {
-					if(checker(username,password,ReviewersFilePath) == false) {
+				if (selection == "reviewer") {
+					if (checker(username, password, ReviewersFilePath) == true) {
 						System.out.println("123");
 					}
+				}
+				if (selection == "authors") {
+					if (checker(username, password, AuthorsInfoPath) == true) {
+						System.out.println("456");
 					}
 				}
-				
-				
-			
+				if (selection == "administrator") {
+					if (checker(username, password, AdministratorPath) == true) {
+						System.out.println("789");
+					}
+				}
+			}
 		});
-		
-		
+
 	}
 }

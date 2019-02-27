@@ -4,8 +4,6 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
-import javax.swing.JTextArea;
-import javax.swing.JTree;
 import javax.swing.JRadioButton;
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
@@ -13,9 +11,7 @@ import javax.swing.*;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
-import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
-import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -28,8 +24,8 @@ public class Signup {
 	private JTextField txtUserEmail;
 	private JPasswordField txtPassword;
 
-	private String AuthorsInfoPath = "src/AccountInfo/authors.txt";
-	private String ReviewersFilePath = "src/AccountInfo/reviewers.txt";
+	private String AuthorsInfoPath = "resources/authors.txt";
+	private String ReviewersFilePath = "resources/reviewers.txt";
 
 	/**
 	 * Launch the application.
@@ -57,7 +53,7 @@ public class Signup {
 	/**
 	 * Create the OpenAndWrite Method for sign-up.
 	 */
-	public void OpenAndWrite(String UserAccount, String UserPassword, String path) {
+	private void OpenAndWrite(String UserAccount, String UserPassword, String path) {
 		String account = UserAccount;
 		String password = UserPassword;
 		String filepath = path;
@@ -140,6 +136,7 @@ public class Signup {
 					OpenAndWrite(txtUserEmail.getText(), String.copyValueOf(txtPassword.getPassword()),
 							AuthorsInfoPath);
 				}
+				frame.dispose();
 			}
 
 		});
