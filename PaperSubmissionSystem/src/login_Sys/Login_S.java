@@ -28,8 +28,8 @@ public class Login_S {
 	private JPasswordField txtPassword;
 	private JTextField txtUserEmail;
 	private String AuthorsInfoPath = "resources/authors.txt";
-	private String ReviewersFilePath = "resources/reviewers.txt";
-	private String AdministratorPath = "resources/administrator.txt";
+	private String ReviewersInfoPath = "resources/reviewers.txt";
+	private String AdministratorInfoPath = "resources/administrator.txt";
 
 	/**
 	 * Launch the application.
@@ -189,7 +189,7 @@ public class Login_S {
 				String username = txtUserEmail.getText();
 				String selection = group.getSelection().getActionCommand();
 				if (selection == "reviewer") {
-					if (checker(username, password, ReviewersFilePath) == true) {
+					if (checker(username, password, ReviewersInfoPath) == true) {
 						System.out.println("123");
 					}
 				}
@@ -199,7 +199,7 @@ public class Login_S {
 					}
 				}
 				if (selection == "administrator") {
-					if (checker(username, password, AdministratorPath) == true) {
+					if (checker(username, password, AdministratorInfoPath) == true) {
 						System.out.println("789");
 					}
 				}

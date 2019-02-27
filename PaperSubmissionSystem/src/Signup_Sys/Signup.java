@@ -25,7 +25,7 @@ public class Signup {
 	private JPasswordField txtPassword;
 
 	private String AuthorsInfoPath = "resources/authors.txt";
-	private String ReviewersFilePath = "resources/reviewers.txt";
+	private String ReviewersInfoPath = "resources/reviewers.txt";
 
 	/**
 	 * Launch the application.
@@ -130,7 +130,7 @@ public class Signup {
 				String selection = group.getSelection().getActionCommand();
 				if (selection == "reviewer") {
 					OpenAndWrite(txtUserEmail.getText(), String.copyValueOf(txtPassword.getPassword()),
-							ReviewersFilePath);
+							ReviewersInfoPath);
 				}
 				if (selection == "authors") {
 					OpenAndWrite(txtUserEmail.getText(), String.copyValueOf(txtPassword.getPassword()),
