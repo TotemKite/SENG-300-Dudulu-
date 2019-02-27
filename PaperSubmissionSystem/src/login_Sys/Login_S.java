@@ -14,6 +14,10 @@ import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.JSeparator;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.JRadioButton;
@@ -23,6 +27,8 @@ public class Login_S {
 	private JFrame frame;
 	private JPasswordField txtPassword;
 	private JTextField txtUserEmail;
+	private String AuthorsInfoPath = "src/AccountInfo/authors.txt";
+	private String ReviewersFilePath = "src/AccountInfo/reviewers.txt";
 
 	/**
 	 * Launch the application.
@@ -46,6 +52,40 @@ public class Login_S {
 	public Login_S() {
 		initialize();
 	}
+	
+	public static boolean checker(String useremail, String userpassword, String accountpath) {
+		String line = null;
+		boolean Value = false;
+		try {
+			// FileReader reads text files in the default encoding.
+			FileReader fileReader = new FileReader(accountpath);
+
+			// Always wrap FileReader in BufferedReader.
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+			while ((line = bufferedReader.readLine()) != null) {
+				// create a token based on
+				String[] token = line.split(";");
+				// because you know first and second word of each line in
+				// given file is id and password
+				if (token[0].equals(useremail) && token[1].equals(userpassword)) {
+					Value = true;
+					return Value;
+				}
+				bufferedReader.close();
+			}
+			// Always close files.
+			bufferedReader.close();
+		} catch (FileNotFoundException ex) {
+			System.out.println("Unable to open file '" + accountpath + "'");
+		} catch (IOException ex) {
+			System.out.println("Error reading file '" + accountpath + "'");
+			// Or we could just do this:
+			// ex.printStackTrace();
+		}
+		return Value;
+	}
+
 
 	/**
 	 * Initialize the contents of the frame.
@@ -83,13 +123,6 @@ public class Login_S {
 		
 		JButton btnLogin = new JButton("Login");
 		btnLogin.setBounds(71, 211, 89, 23);
-		btnLogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				String password = txtPassword.getText();
-				String username = txtUserEmail.getText();
-				
-			}
-		});
 		frame.getContentPane().add(btnLogin);
 		
 		JRadioButton rdbtnadministrator = new JRadioButton("administrator");
@@ -148,6 +181,21 @@ public class Login_S {
 			}
 		});
 		frame.getContentPane().add(btnSignup);
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String password = String.copyValueOf(txtPassword.getPassword());
+				String username = txtUserEmail.getText();
+				String selection = group.getSelection().getActionCommand();
+				if (selection == "reviewers") {
+					if(checker(username,password,ReviewersFilePath) == false) {
+						System.out.println("123");
+					}
+					}
+				}
+				
+				
+			
+		});
 		
 		
 	}
