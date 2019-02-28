@@ -58,7 +58,7 @@ public class Login_S {
 	 */
 	private static boolean checker(String useremail, String userpassword, String accountpath) {
 		String line = null;
-		boolean Value = false;
+		boolean Vaild = false;
 		try {
 			// FileReader reads text files in the default encoding.
 			FileReader fileReader = new FileReader(accountpath);
@@ -67,26 +67,19 @@ public class Login_S {
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
 
 			while ((line = bufferedReader.readLine()) != null) {
-				// System.out.println("111");
-				// create a token based on
 				String[] token = line.split(";");
-				// because you know first and second word of each line in
-				// given file is id and password
 				if (token[0].equals(useremail) && token[1].equals(userpassword)) {
-					Value = true;
-					return Value;
+					Vaild = true;
+					return Vaild;
 				}
 			}
-			// Always close files.
 			bufferedReader.close();
 		} catch (FileNotFoundException ex) {
 			System.out.println("Unable to open file '" + accountpath + "'");
 		} catch (IOException ex) {
 			System.out.println("Error reading file '" + accountpath + "'");
-			// Or we could just do this:
-			ex.printStackTrace();
 		}
-		return Value;
+		return Vaild;
 	}
 
 	/**
@@ -99,49 +92,49 @@ public class Login_S {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		JLabel lbUserEmail = new JLabel("UserEmail");
-		lbUserEmail.setBounds(71, 64, 66, 14);
+		JLabel lbUserEmail = new JLabel("UserEmail:");
+		lbUserEmail.setBounds(71, 62, 69, 17);
 		lbUserEmail.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		frame.getContentPane().add(lbUserEmail);
 
-		JLabel lbPassword = new JLabel("Password");
-		lbPassword.setBounds(71, 119, 89, 23);
+		JLabel lbPassword = new JLabel("Password:");
+		lbPassword.setBounds(71, 121, 89, 23);
 		lbPassword.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		frame.getContentPane().add(lbPassword);
 
 		txtPassword = new JPasswordField();
-		txtPassword.setBounds(212, 121, 86, 20);
+		txtPassword.setBounds(212, 121, 130, 20);
 		frame.getContentPane().add(txtPassword);
 
 		txtUserEmail = new JTextField();
-		txtUserEmail.setBounds(212, 62, 86, 20);
+		txtUserEmail.setBounds(212, 62, 130, 20);
 		frame.getContentPane().add(txtUserEmail);
 		txtUserEmail.setColumns(10);
 
-		JLabel lblNewLabel = new JLabel("Login System");
-		lblNewLabel.setBounds(190, 14, 176, 25);
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		JLabel lblNewLabel = new JLabel("Paper Submission System");
+		lblNewLabel.setBounds(134, 12, 227, 18);
+		lblNewLabel.setFont(new Font("Montserrat SemiBold", Font.PLAIN, 17));
 		frame.getContentPane().add(lblNewLabel);
 
 		JButton btnLogin = new JButton("Login");
-		btnLogin.setBounds(71, 211, 89, 23);
+		btnLogin.setBounds(71, 237, 89, 23);
 		frame.getContentPane().add(btnLogin);
 
-		JRadioButton rdbtnadministrator = new JRadioButton("administrator");
-		rdbtnadministrator.setBounds(71, 161, 97, 14);
+		JRadioButton rdbtnadministrator = new JRadioButton("Administrator");
+		rdbtnadministrator.setBounds(59, 161, 124, 26);
 		rdbtnadministrator.setBackground(Color.PINK);
-		rdbtnadministrator.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		rdbtnadministrator.setFont(new Font("Dialog", Font.PLAIN, 15));
 		frame.getContentPane().add(rdbtnadministrator);
 
-		JRadioButton rdbtnReviewer = new JRadioButton("reviewer");
-		rdbtnReviewer.setBounds(181, 161, 97, 14);
-		rdbtnReviewer.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		JRadioButton rdbtnReviewer = new JRadioButton("Reviewer");
+		rdbtnReviewer.setBounds(210, 161, 92, 26);
+		rdbtnReviewer.setFont(new Font("Dialog", Font.PLAIN, 15));
 		rdbtnReviewer.setBackground(Color.PINK);
 		frame.getContentPane().add(rdbtnReviewer);
 
-		JRadioButton rdbtnAuthor = new JRadioButton("author");
-		rdbtnAuthor.setBounds(296, 161, 97, 14);
-		rdbtnAuthor.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		JRadioButton rdbtnAuthor = new JRadioButton("Author");
+		rdbtnAuthor.setBounds(357, 161, 74, 26);
+		rdbtnAuthor.setFont(new Font("Dialog", Font.PLAIN, 15));
 		rdbtnAuthor.setBackground(Color.PINK);
 		frame.getContentPane().add(rdbtnAuthor);
 
@@ -156,7 +149,7 @@ public class Login_S {
 		group.add(rdbtnReviewer);
 		group.add(rdbtnAuthor);
 		JButton btnReset = new JButton("Reset");
-		btnReset.setBounds(212, 211, 89, 23);
+		btnReset.setBounds(201, 237, 89, 23);
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				txtUserEmail.setText(null);
@@ -166,16 +159,12 @@ public class Login_S {
 		});
 		frame.getContentPane().add(btnReset);
 
-		JSeparator separator = new JSeparator();
-		separator.setBounds(21, 192, 426, 2);
-		frame.getContentPane().add(separator);
-
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setBounds(21, 37, 432, 2);
 		frame.getContentPane().add(separator_1);
 
 		JButton btnSignup = new JButton("Sign up");
-		btnSignup.setBounds(341, 211, 89, 23);
+		btnSignup.setBounds(328, 237, 89, 23);
 		btnSignup.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Signup info = new Signup();

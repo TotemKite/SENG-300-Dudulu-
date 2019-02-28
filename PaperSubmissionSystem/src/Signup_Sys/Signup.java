@@ -81,18 +81,20 @@ public class Signup {
 	private void initialize() {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(Color.PINK);
-		frame.setBounds(100, 100, 478, 593);
+		frame.setBounds(100, 100, 478, 550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
 		JRadioButton rdbtnReviewer = new JRadioButton("Reviewer");
+		rdbtnReviewer.setFont(new Font("Dialog", Font.PLAIN, 13));
 		rdbtnReviewer.setBackground(Color.PINK);
-		rdbtnReviewer.setBounds(165, 297, 190, 23);
+		rdbtnReviewer.setBounds(92, 282, 90, 23);
 		frame.getContentPane().add(rdbtnReviewer);
 
 		JRadioButton rdbtnAuthors = new JRadioButton("Author");
+		rdbtnAuthors.setFont(new Font("Dialog", Font.PLAIN, 13));
 		rdbtnAuthors.setBackground(Color.PINK);
-		rdbtnAuthors.setBounds(166, 344, 205, 23);
+		rdbtnAuthors.setBounds(265, 282, 205, 23);
 		frame.getContentPane().add(rdbtnAuthors);
 		rdbtnReviewer.setActionCommand("reviewer");
 		rdbtnAuthors.setActionCommand("authors");
@@ -103,25 +105,27 @@ public class Signup {
 		group.add(rdbtnAuthors);
 
 		txtUserEmail = new JTextField();
-		txtUserEmail.setBounds(164, 125, 120, 20);
+		txtUserEmail.setBounds(235, 130, 120, 20);
 		frame.getContentPane().add(txtUserEmail);
 		txtUserEmail.setColumns(10);
 
 		txtPassword = new JPasswordField();
-		txtPassword.setBounds(164, 190, 120, 20);
+		txtPassword.setBounds(235, 191, 120, 20);
 		frame.getContentPane().add(txtPassword);
 
 		JLabel lbUserEmail = new JLabel("UserEmail");
-		lbUserEmail.setBounds(46, 128, 109, 23);
+		lbUserEmail.setFont(new Font("Dialog", Font.PLAIN, 13));
+		lbUserEmail.setBounds(92, 128, 109, 23);
 		frame.getContentPane().add(lbUserEmail);
 
 		JLabel lbPassword = new JLabel("Password");
-		lbPassword.setBounds(46, 192, 100, 17);
+		lbPassword.setFont(new Font("Dialog", Font.PLAIN, 13));
+		lbPassword.setBounds(92, 192, 60, 17);
 		frame.getContentPane().add(lbPassword);
 
 		JLabel lblNewLabel = new JLabel("Registration");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel.setBounds(166, 51, 141, 49);
+		lblNewLabel.setFont(new Font("Montserrat SemiBold", Font.PLAIN, 17));
+		lblNewLabel.setBounds(166, 51, 105, 18);
 		frame.getContentPane().add(lblNewLabel);
 
 		JButton btnComfirm = new JButton("Comfirm");
@@ -140,7 +144,7 @@ public class Signup {
 			}
 
 		});
-		btnComfirm.setBounds(21, 428, 120, 41);
+		btnComfirm.setBounds(24, 379, 120, 41);
 		frame.getContentPane().add(btnComfirm);
 
 		JButton btnCancel = new JButton("Cancel");
@@ -149,7 +153,7 @@ public class Signup {
 				frame.dispose();
 			}
 		});
-		btnCancel.setBounds(297, 428, 134, 41);
+		btnCancel.setBounds(306, 379, 134, 41);
 		frame.getContentPane().add(btnCancel);
 
 		JButton btnReset = new JButton("Reset");
@@ -160,7 +164,7 @@ public class Signup {
 				group.clearSelection();
 			}
 		});
-		btnReset.setBounds(164, 428, 120, 41);
+		btnReset.setBounds(168, 379, 120, 41);
 		frame.getContentPane().add(btnReset);
 	}
 }
