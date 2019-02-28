@@ -1,2 +1,2 @@
 # SENG-300-Dudulu-
-log-up and sign up funcions completed.
+log-in and sign up funcions completed.
