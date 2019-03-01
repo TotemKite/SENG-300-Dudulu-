@@ -1,3 +1,5 @@
+//package seng300;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -18,6 +20,7 @@ import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 
+
 public class reviewer {
 
 	private JFrame frame;
@@ -31,6 +34,7 @@ public class reviewer {
 				try {
 					reviewer window = new reviewer();
 					window.frame.setVisible(true);
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -40,15 +44,16 @@ public class reviewer {
 
 	/**
 	 * Create the application.
-	  
+
 	 */
 	public reviewer() throws IOException {
 		initialize();
+
 	}
 
 	/**
 	 * Initialize the contents of the frame.
-	 
+
 	 */
 	private void initialize() throws IOException {
 		frame = new JFrame();
@@ -56,25 +61,31 @@ public class reviewer {
 		frame.getContentPane().setForeground(Color.BLACK);
 		frame.setBounds(100, 100, 826, 636);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+		frame.setTitle("Reviewer Window");
+
 		JLabel lblNewLabel = new JLabel("Hello Reviewer!");
 		lblNewLabel.setForeground(Color.BLUE);
 		lblNewLabel.setFont(new Font("Lucida Calligraphy", Font.BOLD, 15));
-		
+
 		JButton btnNewButton = new JButton("Submit feedback");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				feedbackUpload fb = new feedbackUpload();
+				fb.getFrame().setVisible(true);
 			}
 		});
-		
+
 		JLabel lblFeedback = new JLabel("Feedback:");
 		lblFeedback.setForeground(Color.BLUE);
 		lblFeedback.setFont(new Font("Goudy Old Style", Font.PLAIN, 18));
-		
-		
-		
+
+
+
 		JTextArea textArea = new JTextArea();
-		
+		//JScrollPane sp = new JScrollPane(textArea);
+
+		//frame.getContentPane().add(sp);
+
 		try {
 			FileReader reader = new FileReader("Journal.txt");
 			textArea.read(reader, "Journal.txt");
@@ -83,13 +94,14 @@ public class reviewer {
 		    System.err.println(ioe);
 		    System.exit(1);
 		}
-		
-		
-		
+
+
+
 		JTextArea textArea_1 = new JTextArea();
-		//JScrollPane sp = new JScrollPane(textArea_1); 
-		//frame.getContentPane().add(sp);
-		
+		JScrollPane sp1 = new JScrollPane(textArea_1);
+
+
+
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
