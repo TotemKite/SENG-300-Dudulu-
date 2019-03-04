@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class UploadFile {
 
@@ -68,18 +69,19 @@ public class UploadFile {
 	 */
 	private void initialize() {
 		UploadF = new JFrame("Upload");
+		UploadF.getContentPane().setBackground(Color.PINK);
 		UploadF.setBounds(100, 100, 491, 332);
 		UploadF.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		UploadF.getContentPane().setLayout(null);
 		
 		openPath = new JTextField();
-		openPath.setBounds(107, 75, 245, 21);
+		openPath.setBounds(87, 122, 245, 21);
 		UploadF.getContentPane().add(openPath);
 		openPath.setColumns(10);
 		
 		file = new JLabel("File");
-		file.setFont(new Font("Calibri", Font.PLAIN, 17));
-		file.setBounds(47, 79, 24, 15);
+		file.setFont(new Font("Dialog", Font.PLAIN, 18));
+		file.setBounds(43, 108, 34, 45);
 		UploadF.getContentPane().add(file);
 		
 		// You can upload either one file or one folder
@@ -87,7 +89,7 @@ public class UploadFile {
 		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		
 		openButton = new JButton("Open...");
-		openButton.setFont(new Font("Calibri", Font.PLAIN, 17));
+		openButton.setFont(new Font("Dialog", Font.PLAIN, 18));
 		openButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int index = chooser.showOpenDialog(null);
@@ -102,12 +104,13 @@ public class UploadFile {
 			}
 		});
 		
-		openButton.setBounds(362, 74, 103, 23);
+		openButton.setBounds(361, 119, 103, 23);
 		UploadF.getContentPane().add(openButton);
 		
 		submitButton = new JButton("Submit");
 		submitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {	
+				// Compare the current time to the deadline to determine whether the user can submit or not
 				if(datetime.compareTo(readTime(Deadlineinfo)) <= 0){
 					readPath = openPath.getText();
 					
@@ -126,8 +129,8 @@ public class UploadFile {
 				}
 			}
 		});
-		submitButton.setFont(new Font("Calibri", Font.PLAIN, 16));
-		submitButton.setBounds(211, 244, 93, 23);
+		submitButton.setFont(new Font("Dialog", Font.PLAIN, 20));
+		submitButton.setBounds(178, 214, 134, 23);
 		UploadF.getContentPane().add(submitButton);
 	}
 		

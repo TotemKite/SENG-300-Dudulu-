@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Color;
 
 public class Success {
 
@@ -37,13 +38,14 @@ public class Success {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.getContentPane().setBackground(Color.PINK);
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Your paper has been uploaded successfully!");
-		lblNewLabel.setFont(new Font("Calibri", Font.PLAIN, 20));
-		lblNewLabel.setBounds(29, 101, 378, 40);
+		lblNewLabel.setFont(new Font("Dialog", Font.PLAIN, 20));
+		lblNewLabel.setBounds(10, 91, 405, 40);
 		frame.getContentPane().add(lblNewLabel);
 	}
 

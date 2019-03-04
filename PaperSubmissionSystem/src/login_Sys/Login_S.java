@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import author.Author;
 import reviewer.Reviewer;
 import signup_Sys.Signup;
 
@@ -186,7 +187,7 @@ public class Login_S {
 				}
 				if (selection == "authors") {
 					if (checker(username, password, AuthorsInfoPath) == true) {
-						System.out.println("456");
+						Author.main(null);
 					}
 				}
 				if (selection == "administrator") {
