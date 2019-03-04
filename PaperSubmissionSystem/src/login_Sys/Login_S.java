@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import administrator.Administrator;
 import author.Author;
 import reviewer.Reviewer;
 import signup_Sys.Signup;
@@ -169,7 +170,6 @@ public class Login_S {
 		btnSignup.setBounds(328, 237, 89, 23);
 		btnSignup.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Signup info = new Signup();
 				Signup.main(null);
 			}
 		});
@@ -192,7 +192,7 @@ public class Login_S {
 				}
 				if (selection == "administrator") {
 					if (checker(username, password, AdministratorInfoPath) == true) {
-						System.out.println("789");
+						Administrator.main(null);
 					}
 				}
 			}
