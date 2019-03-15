@@ -7,7 +7,10 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import Signup_Sys.Signup;
+import administrator.Administrator;
+import author.Author;
+import reviewer.Reviewer;
+import signup_Sys.Signup;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -167,7 +170,6 @@ public class Login_S {
 		btnSignup.setBounds(328, 237, 89, 23);
 		btnSignup.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Signup info = new Signup();
 				Signup.main(null);
 			}
 		});
@@ -179,17 +181,18 @@ public class Login_S {
 				String selection = group.getSelection().getActionCommand();
 				if (selection == "reviewer") {
 					if (checker(username, password, ReviewersInfoPath) == true) {
-						System.out.println("123");
+						Reviewer.main(null);
+						
 					}
 				}
 				if (selection == "authors") {
 					if (checker(username, password, AuthorsInfoPath) == true) {
-						System.out.println("456");
+						Author.main(null);
 					}
 				}
 				if (selection == "administrator") {
 					if (checker(username, password, AdministratorInfoPath) == true) {
-						System.out.println("789");
+						Administrator.main(null);
 					}
 				}
 			}
