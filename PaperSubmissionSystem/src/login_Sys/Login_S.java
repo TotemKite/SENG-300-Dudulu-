@@ -10,7 +10,7 @@ import javax.swing.JTextField;
 import administrator.Administrator;
 import author.Author;
 import reviewer.Reviewer;
-import signup_Sys.Signup;
+import Signup_Sys.Signup;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;

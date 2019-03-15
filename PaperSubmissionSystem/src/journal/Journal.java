@@ -87,34 +87,11 @@ public class Journal {
 //		if(this.status > )
 	}
 
-//	public ArrayList<String> getJournal() {
-//		ArrayList<String> thisJournal = new ArrayList<>();
-//		try {
-////			File file = new File(this.title);
-////			FileReader fr;
-////			fr = new FileReader(file);
-//			System.out.println(this.title);
-//			BufferedReader br = new BufferedReader(new FileReader(this.title));
-//			String line;
-//			while((line = br.readLine()) != null){
-//			    //process the line
-//			    thisJournal.add(line);
-//			}
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		return thisJournal;
-//		
-//	}
 
 	// get the journal content as string
 	public String getJournal() {
 		String thisJournal = "";
 		try {
-//			File file = new File(this.title);
-//			FileReader fr;
-//			fr = new FileReader(file);
 			System.out.println(this.title);
 			BufferedReader br = new BufferedReader(new FileReader(this.title));
 			String line;
