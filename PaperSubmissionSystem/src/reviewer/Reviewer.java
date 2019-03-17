@@ -1,9 +1,12 @@
+package reviewer;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -15,7 +18,9 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
@@ -63,7 +68,10 @@ public class Reviewer {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Reviewer Window");
 		
-
+		JPanel wholePanel = new JPanel();
+		
+		JTextArea textArea_1 = new JTextArea();
+		
 		JLabel lblNewLabel = new JLabel("Hello Reviewer!");
 		lblNewLabel.setForeground(Color.BLUE);
 		lblNewLabel.setFont(new Font("Lucida Calligraphy", Font.BOLD, 15));
@@ -73,6 +81,18 @@ public class Reviewer {
 			public void actionPerformed(ActionEvent arg0) {
 				FeedbackUpload fb = new FeedbackUpload();
 				fb.getFrame().setVisible(true);
+				
+				String fbs = textArea_1.getText();
+				
+				try {
+					FileOutputStream out = new FileOutputStream("src/Feedback/John.txt");
+					out.write(fbs.getBytes());
+					out.close();
+				} catch(FileNotFoundException e){
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 
@@ -103,12 +123,12 @@ public class Reviewer {
 			e.printStackTrace();
 		}
 
-
-
-		JTextArea textArea_1 = new JTextArea();
+		wholePanel.add(lblNewLabel);
+		wholePanel.add(btnNewButton);
+		wholePanel.add(panel);
 		
 		
-
+	
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
@@ -148,6 +168,6 @@ public class Reviewer {
 							.addComponent(textArea_1, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE))))
 		);
 		frame.getContentPane().setLayout(groupLayout);
-		return panel;
+		return wholePanel;
 	}
 }
