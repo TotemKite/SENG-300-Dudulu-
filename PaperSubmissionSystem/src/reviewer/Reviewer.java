@@ -6,9 +6,11 @@ import javax.swing.JFrame;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import java.awt.Font;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -81,9 +83,18 @@ public class Reviewer {
 		lblFeedback.setFont(new Font("Goudy Old Style", Font.PLAIN, 18));
 
 
-
+		JPanel panel = new JPanel();
+		
+		
+		
 		JTextArea textArea = new JTextArea();
 		//JScrollPane sp = new JScrollPane(textArea);
+		
+		JScrollPane scroll = new JScrollPane(textArea);
+		scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        panel.setLayout(new BorderLayout());
+        textArea.setEditable(false);
 
 		//frame.getContentPane().add(sp);
 
@@ -99,7 +110,7 @@ public class Reviewer {
 
 
 		JTextArea textArea_1 = new JTextArea();
-		JScrollPane sp1 = new JScrollPane(textArea_1);
+//		JScrollPane sp1 = new JScrollPane(textArea_1);
 
 
 

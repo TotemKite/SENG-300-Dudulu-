@@ -90,6 +90,16 @@ public class ViewJournals {
 			e.printStackTrace();
 		}
 		
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 401, Short.MAX_VALUE)
+		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 201, Short.MAX_VALUE)
+		);
+		
 		
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
@@ -106,18 +116,18 @@ public class ViewJournals {
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(71, Short.MAX_VALUE))
 		);
-		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 401, Short.MAX_VALUE)
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 201, Short.MAX_VALUE)
-		);
+//		GroupLayout gl_panel = new GroupLayout(panel);
+//		gl_panel.setHorizontalGroup(
+//			gl_panel.createParallelGroup(Alignment.LEADING)
+//				.addGap(0, 401, Short.MAX_VALUE)
+//		);
+//		gl_panel.setVerticalGroup(
+//			gl_panel.createParallelGroup(Alignment.LEADING)
+//				.addGap(0, 201, Short.MAX_VALUE)
+//		);
 //		panel.setLayout(gl_panel);
 		frame.getContentPane().setLayout(groupLayout);
-		frame.pack();
+//		frame.pack();
 		
 	}
 }
