@@ -107,7 +107,7 @@ public class Reviewer {
 
 		JTextArea textArea_1 = new JTextArea();
 		
-
+		
 
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
@@ -127,7 +127,7 @@ public class Reviewer {
 							.addComponent(btnNewButton))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(98)
-							.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 615, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(panel, GroupLayout.PREFERRED_SIZE, 615, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap(97, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
@@ -136,7 +136,7 @@ public class Reviewer {
 					.addContainerGap()
 					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
-					.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 333, GroupLayout.PREFERRED_SIZE)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 333, GroupLayout.PREFERRED_SIZE)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(54)
