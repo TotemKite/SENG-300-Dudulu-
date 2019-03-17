@@ -48,7 +48,7 @@ public class FeedbackUpload extends JFrame{
 		frame = new JFrame();
 		frame.getContentPane().setBackground(Color.ORANGE);
 		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frame.setTitle("Thanks");
 
 		JLabel lblFeedbackSubmitted = new JLabel("Feedback submitted! Thank You!");
