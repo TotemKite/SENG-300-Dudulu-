@@ -83,7 +83,7 @@ public class Reviewer {
 				String fbs = textArea_1.getText();
 				
 				try {
-					FileOutputStream out = new FileOutputStream("src/John.txt");
+					FileOutputStream out = new FileOutputStream("Feedback/John.txt");
 					out.write(fbs.getBytes());
 					out.close();
 				} catch(FileNotFoundException e){
@@ -112,7 +112,7 @@ public class Reviewer {
 		panel.add(scroll);
 		frame.add(panel);
 		try {
-			FileReader reader = new FileReader( "src/test.txt" );
+			FileReader reader = new FileReader( "journal_author/test.txt" );
 			BufferedReader br = new BufferedReader(reader);
 			textArea.read(br, null);
 			br.close();
