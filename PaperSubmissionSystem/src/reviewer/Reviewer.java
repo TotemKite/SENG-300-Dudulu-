@@ -92,6 +92,7 @@ public class Reviewer {
         panel.setLayout(new BorderLayout());
         textArea.setEditable(false);
 		panel.add(scroll);
+		frame.add(panel);
 		try {
 			FileReader reader = new FileReader( "src/test.txt" );
 			BufferedReader br = new BufferedReader(reader);
