@@ -1,5 +1,3 @@
-package reviewer;
-
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -16,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -26,7 +25,7 @@ import javax.swing.JTextArea;
 public class Reviewer {
 
 	private JFrame frame;
-	private String journalpathfornow ="journal_author/journal.txt" ;
+	private String journalpathfornow ="src/test.txt" ;
 
 	/**
 	 * Launch the application.
@@ -47,7 +46,6 @@ public class Reviewer {
 
 	/**
 	 * Create the application.
-
 	 */
 	public Reviewer() throws IOException {
 		initialize();
@@ -56,15 +54,15 @@ public class Reviewer {
 
 	/**
 	 * Initialize the contents of the frame.
-
 	 */
-	private void initialize() throws IOException {
+	private JPanel initialize() throws IOException {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(Color.PINK);
 		frame.getContentPane().setForeground(Color.BLACK);
 		frame.setBounds(100, 100, 826, 636);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Reviewer Window");
+		
 
 		JLabel lblNewLabel = new JLabel("Hello Reviewer!");
 		lblNewLabel.setForeground(Color.BLUE);
@@ -83,34 +81,31 @@ public class Reviewer {
 		lblFeedback.setFont(new Font("Goudy Old Style", Font.PLAIN, 18));
 
 
-		JPanel panel = new JPanel();
-		
-		
-		
+
 		JTextArea textArea = new JTextArea();
-		//JScrollPane sp = new JScrollPane(textArea);
 		
+		
+		JPanel panel = new JPanel();
 		JScrollPane scroll = new JScrollPane(textArea);
 		scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         panel.setLayout(new BorderLayout());
         textArea.setEditable(false);
-
-		//frame.getContentPane().add(sp);
-
+		panel.add(scroll);
 		try {
-			FileReader reader = new FileReader(journalpathfornow);
-			textArea.read(reader, journalpathfornow);
-		}
-		catch (IOException ioe) {
-		    System.err.println(ioe);
-		    System.exit(1);
+			FileReader reader = new FileReader( "src/test.txt" );
+			BufferedReader br = new BufferedReader(reader);
+			textArea.read(br, null);
+			br.close();
+			textArea.requestFocus();
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 
 
 
 		JTextArea textArea_1 = new JTextArea();
-//		JScrollPane sp1 = new JScrollPane(textArea_1);
+		
 
 
 
@@ -152,5 +147,6 @@ public class Reviewer {
 							.addComponent(textArea_1, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE))))
 		);
 		frame.getContentPane().setLayout(groupLayout);
+		return panel;
 	}
 }
