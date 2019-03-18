@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JButton;
 
 
 public class Administrator {
@@ -81,6 +82,18 @@ public class Administrator {
 		JTextPane reviewed = new JTextPane();
 		reviewed.setText("Journals that have been reviewed by a Reviewer...");
 		tabbedPane.addTab("Reviewed", null, reviewed, null);
+		
+		JButton btnSetDeadline = new JButton("Set deadline");
+		btnSetDeadline.setFont(new Font("Tahoma", Font.PLAIN, 26));
+		btnSetDeadline.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Deadline dl = new Deadline();
+				dl.setDeadline();
+			}
+		});
+		tabbedPane.addTab("Deadline set", null, btnSetDeadline, null);
+		
+		
 	}
 
 }

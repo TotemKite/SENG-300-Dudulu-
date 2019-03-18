@@ -158,7 +158,7 @@ public class Reviewer {
 				String fbs = textArea_1.getText();
 				
 				try {
-					FileOutputStream out = new FileOutputStream("src/Feedback/John.txt");
+					FileOutputStream out = new FileOutputStream("Feedback/John.txt");
 					out.write(fbs.getBytes());
 					out.close();
 				} catch(FileNotFoundException e){

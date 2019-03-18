@@ -41,6 +41,7 @@ public class UploadFile {
 	private String deadline = "";
 	private String Deadlineinfo = "deadline_info/deadlineforJournal1.txt";
 	private String journalpathfornow ="journal_author/" ;
+	private JButton btnConflictOfInterest;
 	/**
 	 * Launch the application.
 	 */
@@ -130,8 +131,18 @@ public class UploadFile {
 			}
 		});
 		submitButton.setFont(new Font("Dialog", Font.PLAIN, 20));
-		submitButton.setBounds(178, 214, 134, 23);
+		submitButton.setBounds(66, 214, 107, 34);
 		UploadF.getContentPane().add(submitButton);
+		
+		btnConflictOfInterest = new JButton("Conflict of Interest");
+		btnConflictOfInterest.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ConflictofInterst.main(null);
+			}
+		});
+		btnConflictOfInterest.setFont(new Font("Dialog", Font.PLAIN, 20));
+		btnConflictOfInterest.setBounds(244, 214, 219, 34);
+		UploadF.getContentPane().add(btnConflictOfInterest);
 	}
 		
 		// Upload the file to the destination

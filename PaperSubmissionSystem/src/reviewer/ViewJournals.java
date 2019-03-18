@@ -85,7 +85,7 @@ public class ViewJournals {
 //		panel.add(txt);
 		panel.add(scroll);
 		try {
-			FileReader reader = new FileReader( "src/journals/test.txt" );
+			FileReader reader = new FileReader( "journals/test.txt" );
 			BufferedReader br = new BufferedReader(reader);
 			txt.read(br, null);
 			br.close();
@@ -155,7 +155,7 @@ public class ViewJournals {
 				String fbs = textArea_1.getText();
 				
 				try {
-					FileOutputStream out = new FileOutputStream("src/Feedback/John.txt");
+					FileOutputStream out = new FileOutputStream("Feedback/John.txt");
 					out.write(fbs.getBytes());
 					out.close();
 				} catch(FileNotFoundException e){
