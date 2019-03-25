@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: PC11
+Build-Jdk: 1.7.0_51
+Agent-Class: mockit.internal.startup.Startup
+Premain-Class: mockit.internal.startup.Startup
+Created-By: Apache Maven 3.2.1
+Can-Redefine-Classes: true
+Can-Retransform-Classes: true
+Archiver-Version: Plexus Archiver
+
