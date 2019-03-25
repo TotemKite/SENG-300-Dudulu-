@@ -1,4 +1,4 @@
-package Signup_Sys;
+package signup_Sys;
 
 import java.awt.EventQueue;
 
