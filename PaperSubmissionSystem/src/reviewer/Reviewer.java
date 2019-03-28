@@ -149,8 +149,30 @@ public class Reviewer {
 		lblNewLabel.setForeground(Color.BLUE);
 		lblNewLabel.setFont(new Font("Lucida Calligraphy", Font.BOLD, 15));
 
-		JButton btnNewButton = new JButton("Submit feedback");
+		JButton btnNewButton = new JButton("Major feedback");
 		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				FeedbackUpload fb = new FeedbackUpload();
+				fb.getFrame().setVisible(true);
+				
+				String fbs = textArea_1.getText();
+				System.out.println(fbs);
+				
+				try {
+					FileOutputStream out = new FileOutputStream("Feedback/"+fileName.substring(0, fileName.length()-4)+"_Major.txt");
+					out.write(fbs.getBytes());
+					out.close();
+					textArea_1.setText(null);
+				} catch(FileNotFoundException e){
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		JButton btnNewButton1 = new JButton("Minor feedback");
+		btnNewButton1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				FeedbackUpload fb = new FeedbackUpload();
 				fb.getFrame().setVisible(true);
@@ -158,9 +180,10 @@ public class Reviewer {
 				String fbs = textArea_1.getText();
 				
 				try {
-					FileOutputStream out = new FileOutputStream("src/Feedback/John.txt");
+					FileOutputStream out = new FileOutputStream("Feedback/"+fileName.substring(0, fileName.length()-4)+"_Minor.txt");
 					out.write(fbs.getBytes());
 					out.close();
+					textArea_1.setText(null);
 				} catch(FileNotFoundException e){
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -187,7 +210,7 @@ public class Reviewer {
 		panel.add(scroll);
 		frame.add(panel);
 		try {
-			FileReader reader = new FileReader( "journal_author/journal.txt" );
+			FileReader reader = new FileReader( "journal_author/" + fileName);
 			BufferedReader br = new BufferedReader(reader);
 			textArea.read(br, null);
 			br.close();
@@ -215,13 +238,16 @@ public class Reviewer {
 								.addContainerGap()
 								.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE))
 							.addGroup(gl_panel.createSequentialGroup()
-								.addGap(173)
+								.addGap(90)
 								.addComponent(lblFeedback)
-								.addGap(18)
+								.addGap(8)
 								.addComponent(textArea_1, GroupLayout.PREFERRED_SIZE, 289, GroupLayout.PREFERRED_SIZE)
+								.addGap(1)
+								.addComponent(btnNewButton1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 								.addGap(18)
 								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
 									.addComponent(backButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									
 									.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
 							.addGroup(gl_panel.createSequentialGroup()
 								.addGap(98)
@@ -240,6 +266,7 @@ public class Reviewer {
 								.addGap(54)
 								.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 									.addComponent(lblFeedback)
+									.addComponent(btnNewButton1)
 									.addComponent(btnNewButton)))
 //							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(backButton, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
