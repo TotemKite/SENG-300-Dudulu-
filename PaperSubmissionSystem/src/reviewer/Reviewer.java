@@ -163,7 +163,7 @@ public class Reviewer {
 				System.out.println(fbs);
 				
 				try {
-					FileOutputStream out = new FileOutputStream("Feedback/"+fileName.substring(0, fileName.length()-4)+"_Major.txt");
+					FileOutputStream out = new FileOutputStream("feedback/"+fileName.substring(0, fileName.length()-4)+"_Major.txt");
 					out.write(fbs.getBytes());
 					out.close();
 					textArea_1.setText(null);
@@ -184,7 +184,7 @@ public class Reviewer {
 				String fbs = textArea_1.getText();
 				
 				try {
-					FileOutputStream out = new FileOutputStream("Feedback/"+fileName.substring(0, fileName.length()-4)+"_Minor.txt");
+					FileOutputStream out = new FileOutputStream("feedback/"+fileName.substring(0, fileName.length()-4)+"_Minor.txt");
 					out.write(fbs.getBytes());
 					out.close();
 					textArea_1.setText(null);

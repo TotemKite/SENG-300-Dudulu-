@@ -41,10 +41,13 @@ public class UploadFile {
 	private String deadline = "";
 	private String Deadlineinfo = "deadline_info/deadlineforJournal1.txt";
 	private String journalpathfornow ="journal_author/" ;
+	private JButton btnConflictOfInterest;
+	private static String username;
 	/**
 	 * Launch the application.
 	 */
-	public static void UploadScreen() {
+	public static void UploadScreen(String name) {
+		username = name;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -117,7 +120,7 @@ public class UploadFile {
 					File curFile = new File(readPath.trim());
 					fileName = curFile.getName();
 					
-					writePath = journalpathfornow +fileName+"\\";
+					writePath = journalpathfornow +username +".txt"+"\\";
 					if(uploadFile(readPath, writePath) == -1){
 						JOptionPane.showMessageDialog(null, "The file is not existed!", "Error", JOptionPane.ERROR_MESSAGE);
 					}
@@ -130,8 +133,18 @@ public class UploadFile {
 			}
 		});
 		submitButton.setFont(new Font("Dialog", Font.PLAIN, 20));
-		submitButton.setBounds(178, 214, 134, 23);
+		submitButton.setBounds(66, 214, 107, 34);
 		UploadF.getContentPane().add(submitButton);
+		
+		btnConflictOfInterest = new JButton("Conflict of Interest");
+		btnConflictOfInterest.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ConflictofInterst.main(username);
+			}
+		});
+		btnConflictOfInterest.setFont(new Font("Dialog", Font.PLAIN, 20));
+		btnConflictOfInterest.setBounds(244, 214, 219, 34);
+		UploadF.getContentPane().add(btnConflictOfInterest);
 	}
 		
 		// Upload the file to the destination

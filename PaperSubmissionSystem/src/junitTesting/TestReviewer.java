@@ -1,5 +1,8 @@
-package reviewer;
+package junitTesting;
 import org.junit.Test;
+
+import reviewer.Reviewer;
+
 import static org.junit.Assert.*;
 public class TestReviewer {
 	String testFlag = null;
@@ -8,9 +11,9 @@ public class TestReviewer {
 	public void testAIBoundCheck_InsideNotHit() throws Exception{
 		
 //		System.out.println(world[2][2]);
-		assertEquals("3.txt", re.getFileName(0));
+		assertEquals("1.txt", re.getFileName(0));
 		assertEquals("2.txt", re.getFileName(1));
-		assertEquals("1.txt", re.getFileName(2));
+		assertEquals("3.txt", re.getFileName(2));
 	}
 	
 	@Test

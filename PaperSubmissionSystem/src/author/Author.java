@@ -12,11 +12,12 @@ import javax.swing.JLabel;
 public class Author {
 
 	private JFrame frame;
-
+	private static String name;
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main(String username) {
+		name = username;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -53,10 +54,10 @@ public class Author {
 			public void actionPerformed(ActionEvent e) {
 				
 				UploadFile uf = new UploadFile();
-				uf.UploadScreen();
+				uf.UploadScreen(name);
 			}
 		});
-		btnSubmit.setBounds(147, 188, 151, 24);
+		btnSubmit.setBounds(42, 184, 151, 24);
 		frame.getContentPane().add(btnSubmit);
 		
 		JLabel lblWelcomeToSubmit = new JLabel("Welcome to submit your paper here");
@@ -65,5 +66,16 @@ public class Author {
 		lblWelcomeToSubmit.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 20));
 		lblWelcomeToSubmit.setBounds(42, 85, 361, 24);
 		frame.getContentPane().add(lblWelcomeToSubmit);
+		
+		JButton btnViewFeedback = new JButton("View Feedback");
+		btnViewFeedback.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ReceiveFeedBack.main(name);
+			}
+		});
+		btnViewFeedback.setFont(new Font("Dialog", Font.ITALIC, 16));
+		btnViewFeedback.setBackground(Color.CYAN);
+		btnViewFeedback.setBounds(232, 184, 151, 24);
+		frame.getContentPane().add(btnViewFeedback);
 	}
 }
