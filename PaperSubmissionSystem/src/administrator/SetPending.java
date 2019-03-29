@@ -18,7 +18,7 @@ import java.io.IOException;
 
 import javax.swing.SwingConstants;
 
-public class Deadline {
+public class SetPending {
 
 	private JFrame frame;
 	private JTextField date;
@@ -31,7 +31,7 @@ public class Deadline {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Deadline window = new Deadline();
+					SetPending window = new SetPending();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -43,7 +43,7 @@ public class Deadline {
 	/**
 	 * Create the application.
 	 */
-	public Deadline() {
+	public SetPending() {
 		initialize();
 	}
 

@@ -18,7 +18,7 @@ import java.io.IOException;
 
 import javax.swing.SwingConstants;
 
-public class Deadline {
+public class SetReviewed {
 
 	private JFrame frame;
 	private JTextField date;
@@ -31,7 +31,7 @@ public class Deadline {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Deadline window = new Deadline();
+					SetReviewed window = new SetReviewed();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -43,7 +43,7 @@ public class Deadline {
 	/**
 	 * Create the application.
 	 */
-	public Deadline() {
+	public SetReviewed() {
 		initialize();
 	}
 
@@ -76,10 +76,10 @@ public class Deadline {
 				String deadline = dt + " " + tm;
 				
 				try {
-					FileOutputStream out = new FileOutputStream("deadline_info/deadlineforJournal1.txt");
+					FileOutputStream out = new FileOutputStream("submission/reviewed/");
 					out.write(deadline.getBytes());
 					out.close();
-					File f = new File("resources/Deadline.txt");
+					File f = new File("submission/reviewed/");
 					if(f.exists()) {
 						JOptionPane.showMessageDialog(btnEnsure, "The deadline has been assigned successfully!");
 					}
