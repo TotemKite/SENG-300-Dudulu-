@@ -40,7 +40,7 @@ public class Success {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(Color.PINK);
 		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Your paper has been uploaded successfully!");

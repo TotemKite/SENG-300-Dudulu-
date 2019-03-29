@@ -10,7 +10,7 @@ import javax.swing.JTextField;
 import administrator.Administrator;
 import author.Author;
 import reviewer.Reviewer;
-import signup_Sys.Signup;
+import Signup_Sys.Signup;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -59,7 +59,7 @@ public class Login_S {
 	/**
 	 * Create the boolean checker function for log-in.
 	 */
-	private boolean checker(String useremail, String userpassword, String accountpath) {
+	private static boolean checker(String useremail, String userpassword, String accountpath) {
 		String line = null;
 		boolean Vaild = false;
 		try {
@@ -187,7 +187,7 @@ public class Login_S {
 				}
 				if (selection == "authors") {
 					if (checker(username, password, AuthorsInfoPath) == true) {
-						Author.main(username);
+						Author.main(null);
 					}
 				}
 				if (selection == "administrator") {
