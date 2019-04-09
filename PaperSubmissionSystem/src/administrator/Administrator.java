@@ -28,12 +28,6 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
 public class Administrator {
-	private int selected;
-	private JFrame frame;
-	private String unreadPath;
-	private String pendingPath;
-	private String reviewedPath;
-	private String approvedPath;
 	JTable unreadTable;
 	JTable pendingTable;
 	File[] pendingFiles;
@@ -42,6 +36,12 @@ public class Administrator {
 	JTable approvedTable;
 	File[] approvedFiles;
 	JTable deadlineTable;
+	private int selected;
+	private JFrame frame;
+	private String unreadPath;
+	private String pendingPath;
+	private String reviewedPath;
+	private String approvedPath;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -125,7 +125,6 @@ public class Administrator {
 					viewPending(index);
 					frame.setVisible(true);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -200,9 +199,9 @@ public class Administrator {
 		String[] originals = origin.list();
 		File viewing = new File(origin, originals[index]);
 		File destination = new File(this.pendingPath);
-		String[] dests = destination.list();
-		File saving = new File(destination, dests[index]);
-		AdminViewer.renderFile(viewing.getPath(), saving.getPath());
+//		String[] dests = destination.list();
+//		File saving = new File(destination, dests[index]);
+		AdminViewer.renderFile(viewing.getPath(), destination.getPath());
 	}
 	
 	public void viewPending(int index) throws IOException {
@@ -210,9 +209,9 @@ public class Administrator {
 		String[] originals = origin.list();
 		File viewing = new File(origin, originals[index]);
 		File destination = new File(this.reviewedPath);
-		String[] dests = destination.list();
-		File saving = new File(destination, dests[index]);
-		AdminViewer.renderFile(viewing.getPath(), saving.getPath());
+//		String[] dests = destination.list();
+//		File saving = new File(destination, dests[index]);
+		AdminViewer.renderFile(viewing.getPath(), destination.getPath());
 	}
 	
 	public void viewReviewed(int index) throws IOException {
@@ -220,9 +219,9 @@ public class Administrator {
 		String[] originals = origin.list();
 		File viewing = new File(origin, originals[index]);
 		File destination = new File(this.approvedPath);
-		String[] dests = destination.list();
-		File saving = new File(destination, dests[index]);
-		AdminViewer.renderFile(viewing.getPath(), saving.getPath());
+//		String[] dests = destination.list();
+//		File saving = new File(destination, dests[index]);
+		AdminViewer.renderFile(viewing.getPath(), destination.getPath());
 	}
 	
 	public void viewApproved(int index) throws IOException {

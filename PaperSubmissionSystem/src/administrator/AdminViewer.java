@@ -2,15 +2,11 @@ package administrator;
 
 import java.lang.String;
 import java.awt.EventQueue;
-import java.awt.FlowLayout;
 import java.awt.Font;
-
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JPanel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JButton;
@@ -19,14 +15,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
-
 import javax.swing.JFileChooser;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import javax.swing.JTextArea;
-
-import javafx.geometry.Orientation;
-
 
 public class AdminViewer {
 	String temp;
@@ -42,9 +34,6 @@ public class AdminViewer {
 	JScrollPane scroller;
 	String[] instructions;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void renderFile(String filepath, String destpath) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -59,58 +48,51 @@ public class AdminViewer {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
 	public AdminViewer(String filepath, String destpath) throws IOException {
 		this.pathToFile = filepath;
 		this.pathtoDest = destpath;
+		System.out.println(destpath);
 		this.viewing = new File(filepath);
-		this.saving = new File(destpath);
 		if (this.pathToFile.contains("unread")) {
-			this.instructions = new String[] {
-	             "Once you open the File System Dialog \n",
-	             "enter one of the following filenames:\n",
-	             "        1. \'001-unread.txt\'\n",
-	             "        2. \'002-unread.txt\'\n",
-	             "        3. \'003-unread.txt\'\n",
-	             "        4. \'004-unread.txt\'\n",
-	             "        5. \'005-unread.txt\'\n",
-	             "        6. \'006-unread.txt\'\n"
-			};
+			File dir = new File("submissions/unread");
+			String[] filenames = dir.list();
+			int numFiles = filenames.length;
+			this.instructions = new String[numFiles+1];
+			this.instructions[0] = "Once you open the File System Dialog, enter one of the following filenames:\n";
+			for (int i = 1; i < numFiles+1; i++) {
+				int fidx = i-1;
+				this.instructions[i] = "        " + filenames[fidx] + "\n";
+			}
 		} else if (this.pathToFile.contains("pending")) {
-			this.instructions = new String[] {
-	             "Once you open the File System Dialog \n",
-	             "enter one of the following filenames:\n",
-	             "        1. \'001-pending.txt\'\n",
-	             "        2. \'002-pending.txt\'\n",
-	             "        3. \'003-pending.txt\'\n",
-	             "        4. \'004-pending.txt\'\n",
-	             "        5. \'005-pending.txt\'\n",
-	             "        6. \'006-pending.txt\'\n"
-			};
+			File dir = new File("submissions/pending");
+			String[] filenames = dir.list();
+			int numFiles = filenames.length;
+			this.instructions = new String[numFiles+1];
+			this.instructions[0] = "Once you open the File System Dialog, enter one of the following filenames:\n";
+			for (int i = 1; i < numFiles+1; i++) {
+				int fidx = i-1;
+				this.instructions[i] = "        " + filenames[fidx] + "\n";
+			}
 		} else if (this.pathToFile.contains("reviewed")) {
-			this.instructions = new String[] {
-	             "Once you open the File System Dialog \n",
-	             "enter one of the following filenames:\n",
-	             "        1. \'001-reviewed.txt\'\n",
-	             "        2. \'002-reviewed.txt\'\n",
-	             "        3. \'003-reviewed.txt\'\n",
-	             "        4. \'004-reviewed.txt\'\n",
-	             "        5. \'005-reviewed.txt\'\n",
-	             "        6. \'006-reviewed.txt\'\n"
-			};
+			File dir = new File("submissions/reviewed");
+			String[] filenames = dir.list();
+			int numFiles = filenames.length;
+			this.instructions = new String[numFiles+1];
+			this.instructions[0] = "Once you open the File System Dialog, enter one of the following filenames:\n";
+			for (int i = 1; i < numFiles+1; i++) {
+				int fidx = i-1;
+				this.instructions[i] = "        " + filenames[fidx] + "\n";
+			}
 		} else if (this.pathToFile.contains("approved")) {
-			this.instructions = new String[] {
-	             "Once you open the File System Dialog \n",
-	             "enter one of the following filenames:\n",
-	             "        1. \'001-approved.txt\'\n",
-	             "        2. \'002-approved.txt\'\n",
-	             "        3. \'003-approved.txt\'\n",
-	             "        4. \'004-approved.txt\'\n",
-	             "        5. \'005-approved.txt\'\n",
-	             "        6. \'006-approved.txt\'\n"
-			};
+			File dir = new File("submissions/approved");
+			String[] filenames = dir.list();
+			int numFiles = filenames.length;
+			this.instructions = new String[numFiles+1];
+			this.instructions[0] = "Once you open the File System Dialog, enter one of the following filenames:\n";
+			for (int i = 1; i < numFiles+1; i++) {
+				int fidx = i-1;
+				this.instructions[i] = "        " + filenames[fidx] + "\n";
+			}
 		} else {
 			this.instructions = new String[] {
 	             "Once you open the File System Dialog \n",
@@ -150,7 +132,7 @@ public class AdminViewer {
 	    readButton.addActionListener(ev -> {
 	      int returnVal = fc.showOpenDialog(fileframe);
 	      if (returnVal == JFileChooser.APPROVE_OPTION) {
-	        fc.setCurrentDirectory(new java.io.File("txt"));
+	        fc.setCurrentDirectory(new java.io.File(".txt"));
 	        fc.setDialogTitle(this.pathToFile);
 	        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
 	        try {
@@ -167,9 +149,17 @@ public class AdminViewer {
 	    saveButton.addActionListener(ev -> {
 	        try {
 	          	this.test = ta.getText();
-	          	BufferedWriter replace = new BufferedWriter(new FileWriter(this.viewing));
-	          	BufferedWriter output = new BufferedWriter(new FileWriter(this.saving));
 	          	if (!this.test.contentEquals(this.temp)) {
+	          		String response = JOptionPane.showInputDialog(
+      					null,
+      					"Save Changes to File",
+      					"New File Name: ",
+      					JOptionPane.QUESTION_MESSAGE
+  					);
+	          		String newSavePath = this.pathtoDest + "/" + response;
+	          		this.saving = new File(newSavePath);
+	          		BufferedWriter replace = new BufferedWriter(new FileWriter(this.viewing));
+	          		BufferedWriter output = new BufferedWriter(new FileWriter(this.saving));
 	          		ta.write(output);
 	          		ta.setText("");
 	          		ta.write(replace);
