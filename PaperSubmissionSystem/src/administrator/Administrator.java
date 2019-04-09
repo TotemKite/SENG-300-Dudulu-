@@ -243,7 +243,7 @@ public class Administrator {
 		table.setRowSelectionAllowed(true);
 		table.setAutoCreateRowSorter(true);
 		table.setGridColor(Color.YELLOW);
-		table.setBackground(Color.CYAN);
+		table.setBackground(Color.PINK);
 		table.setRowHeight(25);
 		table.setVisible(true);
 		return table;
