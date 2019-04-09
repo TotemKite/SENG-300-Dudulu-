@@ -12,23 +12,20 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 
 public class Administrator {
 	private int selected;
@@ -77,12 +74,12 @@ public class Administrator {
 		frame.getContentPane().setBackground(Color.PINK);
 		frame.setTitle("Administrator");
 		frame.setResizable(false);
-		frame.setBounds(200, 200, 650, 600);
+		frame.setBounds(200, 200, 600, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 		JMenuItem logout = new JMenuItem("Logout");
-		menuBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		menuBar.setLayout(new FlowLayout(FlowLayout.CENTER));
 		menuBar.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		menuBar.add(logout);
 		logout.addActionListener(new ActionListener() {
@@ -98,94 +95,71 @@ public class Administrator {
 		// Unread Papers Tab
 		JPanel unread = new JPanel();
 		this.unreadTable = getTable(this.unreadPath);
-		JButton btnGetUnassigned = new JButton("View Selected Paper");
+		JButton btnGetUnassigned = new JButton("View Unread Papers");
 		btnGetUnassigned.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnGetUnassigned.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int index = getSelected();
 				try {
 					viewUnread(index);
+					frame.setVisible(true);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		});
-		JButton btnSetPending = new JButton("Set Selected As Pending");
-		btnSetPending.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnSetPending.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				int index = getSelected();
-				System.out.println("Selected papers are now Pending");
-			}
-		});
 		unread.add(btnGetUnassigned);
-		unread.add(btnSetPending);
+		unread.add(new JSeparator(JSeparator.HORIZONTAL));
 		unread.add(this.unreadTable);
-		tabbedPane.addTab("Unassigned", null, unread, null);
+		tabbedPane.addTab("Unread", null, unread, null);
 		
 		// Pending Papers Tab
 		JPanel pending = new JPanel();
 		this.pendingTable = getTable(this.pendingPath);
-		JButton btnGetPending = new JButton("View Selected Paper");
+		JButton btnGetPending = new JButton("View Pending Papers");
 		btnGetPending.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnGetPending.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int index = getSelected();
 				try {
 					viewPending(index);
+					frame.setVisible(true);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		});
-		JButton btnSetReviewed = new JButton("Set Selected As Reviewed");
-		btnSetReviewed.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnSetReviewed.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				int index = getSelected();
-				System.out.println("Selected files have been Reviewed");
-			}
-		});
 		pending.add(btnGetPending);
-		pending.add(btnSetReviewed);
+		pending.add(new JSeparator(JSeparator.HORIZONTAL));
 		pending.add(this.pendingTable);
 		tabbedPane.addTab("Pending", null, pending, null);
 		
 		// Reviewed Papers Tab
 		JPanel reviewed = new JPanel();
 		this.reviewedTable = getTable(this.reviewedPath);
-		JButton btnGetReviewed = new JButton("View Selected Paper");
+		JButton btnGetReviewed = new JButton("View Reviewed Papers");
 		btnGetReviewed.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnGetReviewed.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int index = getSelected();
 				try {
 					viewReviewed(index);
+					frame.setVisible(true);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		});
-		JButton btnSetApproved = new JButton("Set Selected As Approved");
-		btnSetApproved.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnSetApproved.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				int index = getSelected();
-				System.out.println("Selected files will be Approved");
-			}
-		});
 		reviewed.add(btnGetReviewed);
-		reviewed.add(btnSetApproved);
+		reviewed.add(new JSeparator(JSeparator.HORIZONTAL));
 		reviewed.add(this.reviewedTable);
 		tabbedPane.addTab("Reviewed", null, reviewed, null);
 		
 		// Approved Papers Tab
 		JPanel approved = new JPanel();
 		this.approvedTable = getTable(this.approvedPath);
-		JButton btnGetApproved = new JButton("View Selected Paper");
+		JButton btnGetApproved = new JButton("View Approved Papers");
 		btnGetApproved.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnGetApproved.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -193,7 +167,6 @@ public class Administrator {
 				try {
 					viewApproved(index);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -203,7 +176,7 @@ public class Administrator {
 		tabbedPane.addTab("Approved", null, approved, null);
 		
 		JPanel deadlines = new JPanel();
-		JButton btnSetDeadline = new JButton("Set Deadlines");
+		JButton btnSetDeadline = new JButton("Set/Change Deadlines for Review");
 		btnSetDeadline.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnSetDeadline.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -223,31 +196,40 @@ public class Administrator {
 	}
 	
 	public void viewUnread(int index) throws IOException {
-		File dir = new File(this.unreadPath);
-	    String[] filenames = dir.list();
-	    File viewing = new File(dir, filenames[index]);
-	    AdminViewer.renderFile(viewing.getPath());
+		File origin = new File(this.unreadPath);
+		String[] originals = origin.list();
+		File viewing = new File(origin, originals[index]);
+		File destination = new File(this.pendingPath);
+		String[] dests = destination.list();
+		File saving = new File(destination, dests[index]);
+		AdminViewer.renderFile(viewing.getPath(), saving.getPath());
 	}
 	
 	public void viewPending(int index) throws IOException {
-		File dir = new File(this.pendingPath);
-	    String[] filenames = dir.list();
-	    File viewing = new File(dir, filenames[index]);
-	    AdminViewer.renderFile(viewing.getPath());
+		File origin = new File(this.pendingPath);
+		String[] originals = origin.list();
+		File viewing = new File(origin, originals[index]);
+		File destination = new File(this.reviewedPath);
+		String[] dests = destination.list();
+		File saving = new File(destination, dests[index]);
+		AdminViewer.renderFile(viewing.getPath(), saving.getPath());
 	}
 	
 	public void viewReviewed(int index) throws IOException {
-		File dir = new File(this.reviewedPath);
-	    String[] filenames = dir.list();
-	    File viewing = new File(dir, filenames[index]);
-	    AdminViewer.renderFile(viewing.getPath());
+		File origin = new File(this.reviewedPath);
+		String[] originals = origin.list();
+		File viewing = new File(origin, originals[index]);
+		File destination = new File(this.approvedPath);
+		String[] dests = destination.list();
+		File saving = new File(destination, dests[index]);
+		AdminViewer.renderFile(viewing.getPath(), saving.getPath());
 	}
 	
 	public void viewApproved(int index) throws IOException {
 		File dir = new File(this.approvedPath);
 	    String[] filenames = dir.list();
 	    File viewing = new File(dir, filenames[index]);
-	    AdminViewer.renderFile(viewing.getPath());
+	    AdminViewer.renderFile(viewing.getPath(), viewing.getPath());
 	}
 	
 	private JTable getTable(String path) {
@@ -257,10 +239,13 @@ public class Administrator {
 		SelectionListener listener = new SelectionListener(table, choice);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.getSelectionModel().addListSelectionListener(listener);
+		table.getColumnModel().getColumn(0).setPreferredWidth(100);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
 		table.setRowSelectionAllowed(true);
 		table.setAutoCreateRowSorter(true);
 		table.setGridColor(Color.YELLOW);
 		table.setBackground(Color.CYAN);
+		table.setRowHeight(25);
 		table.setVisible(true);
 		return table;
 	}
@@ -280,7 +265,7 @@ public class Administrator {
 				return;
 			}
 			if (evt.getSource() == table.getSelectionModel()
-					&& table.getRowSelectionAllowed()) {
+				&& table.getRowSelectionAllowed()) {
 				pick = evt.getLastIndex();
 				this.index = pick;
 				setSelected(pick);
@@ -334,9 +319,9 @@ public class Administrator {
 	    	case AUTHOR:
 	    		return "Author".concat("_" + row);
 	        case READABLE:
-	            return f.canRead() ? Boolean.TRUE : Boolean.FALSE;
+	            return f.canRead() ? "READ": "N/A";
 	        case WRITABLE:
-	            return f.canWrite() ? Boolean.TRUE : Boolean.FALSE;
+	            return f.canWrite() ? "WRITE" : "N/A";
 	        case LAST_MODIFIED:
 	            return new Date(f.lastModified());
 	        default:
@@ -409,8 +394,8 @@ public class Administrator {
     		String.class,
             Long.class,
             String.class,
-            Boolean.class,
-            Boolean.class,
+            String.class,
+            String.class,
             Date.class,
         };
         public final static String NIMBUS_LF = "Nimbus";
