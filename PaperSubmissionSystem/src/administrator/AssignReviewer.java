@@ -1,10 +1,15 @@
-package reviewer;
+package administrator;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.DefaultListModel;
@@ -21,18 +26,21 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.UIManager;
 import java.awt.CardLayout;
 
-public class ViewJournalNames {
+public class AssignReviewer {
 
 	private JFrame frame;
+	private static String name;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void assign(String fileName) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ViewJournalNames window = new ViewJournalNames();
+					name = fileName.substring(19, fileName.length()-4-7);
+					String filePath = "ci/" + name +".txt";
+					AssignReviewer window = new AssignReviewer(filePath);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -44,22 +52,22 @@ public class ViewJournalNames {
 	/**
 	 * Create the application.
 	 */
-	public ViewJournalNames() {
-		initialize();
+	public AssignReviewer(String filePath) {
+		initialize(filePath);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(String filePath) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		DefaultListModel<String> model = new DefaultListModel<>();
 		
-		JPanel panel = new JPanel(new CardLayout());
+		JPanel panel = new JPanel();
 		
-		JLabel lblListOfAll = new JLabel("List of all Journals");
+		JLabel lblListOfAll = new JLabel("List of all Reviwers");
 		lblListOfAll.setForeground(UIManager.getColor("Button.select"));
 		
 //		 txt = new JTextArea(30, 30);
@@ -87,34 +95,62 @@ public class ViewJournalNames {
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 225, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(32, Short.MAX_VALUE))
 		);
-		panel.setLayout(new CardLayout(0, 0));
+//		panel.setLayout();
 		
 		JPanel panel_1 = new JPanel();
 		panel.add(panel_1, "List Panel");
-		
-		CardLayout cl = (CardLayout)(panel.getLayout());
-		
+				
 		JList list = new JList(model);
-		File folder = new File("src/journals");
-		File[] listOfFiles = folder.listFiles();
+		
+		boolean flag = false;
+		
+		String line = null;
+		while (!flag) {
+			try {
+				// FileReader reads text files in the default encoding.
+				FileReader fileReader = new FileReader(filePath);
 
-		for (int i = 0; i < listOfFiles.length; i++) {
-		  if (listOfFiles[i].isFile()) {
-		    System.out.println("File " + listOfFiles[i].getName());
-		    model.addElement(listOfFiles[i].getName());
-		  } else if (listOfFiles[i].isDirectory()) {
-//		    System.out.println("Directory " + listOfFiles[i].getName());
-		  }
+				// Always wrap FileReader in BufferedReader.
+				BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+				while ((line = bufferedReader.readLine()) != null) {
+					model.addElement(line);
+				}
+				bufferedReader.close();
+			} catch (FileNotFoundException ex) {
+				System.out.println("Unable to open file '" + filePath + "'");
+			} catch (IOException ex) {
+				System.out.println("Error reading file '" + filePath + "'");
+			}
+//			list.setModel(model);
+			flag = true;
 		}
+
+		
 		list.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-//				System.out.println(list.locationToIndex(e.getPoint()));
-				JPanel panel_2 = readJournal(listOfFiles[list.locationToIndex(e.getPoint())].getName());
-				panel.add(panel_2, "Journal Panel");
-//				panel_2 = readJournal(listOfFiles[list.locationToIndex(e.getPoint())].getName());
-				System.out.println(listOfFiles[list.locationToIndex(e.getPoint())].getName());
-				cl.show(panel, "Journal Panel");
+				String newFilePath = "submissions/pending/" + name + "_pending.txt";
+				FileOutputStream outputStream;
+				try {
+					String line = null;
+					// FileReader reads text files in the default encoding.
+					FileReader fileReader = new FileReader("submissions/unread/"+name+"_unread.txt");
+					outputStream = new FileOutputStream(newFilePath);
+					// Always wrap FileReader in BufferedReader.
+					BufferedReader bufferedReader = new BufferedReader(fileReader);
+					DataOutputStream dataOutStream = new DataOutputStream(new BufferedOutputStream(outputStream));
+					while ((line = bufferedReader.readLine()) != null) {
+						dataOutStream.writeUTF(line);
+					}
+					bufferedReader.close();
+					dataOutStream.close();
+				} catch (FileNotFoundException ex) {
+//					System.out.println("Unable to open file '" + filePath + "'");
+					ex.printStackTrace();
+				} catch (IOException ex) {
+					System.out.println("Error reading file '" + filePath + "'");
+				}
 			}
 		});
 //		panel.add(list);
@@ -131,25 +167,4 @@ public class ViewJournalNames {
 		frame.getContentPane().setLayout(groupLayout);
 	}
 	
-	public JPanel readJournal(String name) {
-		JPanel panel = new JPanel();
-		JTextArea txt = new JTextArea(30, 30);
-		JScrollPane scroll = new JScrollPane(txt);
-		scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        panel.setLayout(new BorderLayout());
-        txt.setEditable(false);
-//		panel.add(txt);
-		panel.add(scroll);
-		try {
-			FileReader reader = new FileReader( "src/journals/" + name);
-			BufferedReader br = new BufferedReader(reader);
-			txt.read(br, null);
-			br.close();
-			txt.requestFocus();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		return panel;
-	}
 }
