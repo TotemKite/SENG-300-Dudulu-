@@ -158,6 +158,7 @@ public class AdminViewer {
 			public void actionPerformed(ActionEvent arg0) {
 				if (pathToFile.contains("unread")) {
 					AssignReviewer.assign(pathToFile);
+					
 				} else if (pathToFile.contains("pending")) {
 					File folder = new File("feedback");
 					File[] listOfFiles = folder.listFiles();

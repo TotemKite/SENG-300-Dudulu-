@@ -170,6 +170,10 @@ public class AssignReviewer {
 				} catch (IOException ex) {
 //					System.out.println("Error reading file '" + filePath + "'");
 				}
+				
+				File deleteFile = new File("submissions/unread/"+name+"_unread.txt");
+				deleteFile.delete();
+				frame.dispose();
 			}
 		});
 //		panel.add(list);
@@ -181,9 +185,9 @@ public class AssignReviewer {
 //		panel.add(txt);
 		panel_1.add(scroll);
 
-
-		
 		frame.getContentPane().setLayout(groupLayout);
+		
+
 	}
 	
 }
