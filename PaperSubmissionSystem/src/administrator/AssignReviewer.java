@@ -101,6 +101,7 @@ public class AssignReviewer {
 		panel.add(panel_1, "List Panel");
 				
 		JList list = new JList(model);
+
 		
 		boolean flag = false;
 		
@@ -130,7 +131,8 @@ public class AssignReviewer {
 		list.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String newFilePath = "submissions/pending/" + name + "_pending.txt";
+				String reviewer = model.getElementAt(list.locationToIndex(e.getPoint()));
+				String newFilePath = "submissions/pending/" + name+"_" +reviewer + "_pending.txt";
 				FileOutputStream outputStream;
 				try {
 					String line = null;

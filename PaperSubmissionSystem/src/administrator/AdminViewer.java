@@ -13,12 +13,16 @@ import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JButton;
+
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import javax.swing.JFileChooser;
 import java.io.IOException;
@@ -152,7 +156,45 @@ public class AdminViewer {
 		});
 		assignButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				AssignReviewer.assign(pathToFile);
+				if (pathToFile.contains("unread")) {
+					AssignReviewer.assign(pathToFile);
+				} else if (pathToFile.contains("pending")) {
+					File folder = new File("feedback");
+					File[] listOfFiles = folder.listFiles();
+					for(File f:listOfFiles) {
+						String fileName_temp = f.getName().substring(0, f.getName().length()-10);
+//						String name = pathToFile.substring(20, pathToFile.length()-12);
+						if(pathToFile.contains(fileName_temp)) {
+							FileOutputStream outputStream;
+							try {
+								String newFilePath = "submissions/reviewed/" + fileName_temp + "_reviewed.txt";
+								String line = null;
+								// FileReader reads text files in the default encoding.
+								FileReader fileReader = new FileReader(pathToFile);
+								outputStream = new FileOutputStream(newFilePath);
+								// Always wrap FileReader in BufferedReader.
+								BufferedReader bufferedReader = new BufferedReader(fileReader);
+								DataOutputStream dataOutStream = new DataOutputStream(new BufferedOutputStream(outputStream));
+								while ((line = bufferedReader.readLine()) != null) {
+									dataOutStream.writeUTF(line);
+								}
+								bufferedReader.close();
+								dataOutStream.close();
+							} catch (FileNotFoundException ex) {
+//								System.out.println("Unable to open file '" + filePath + "'");
+								ex.printStackTrace();
+							} catch (IOException ex) {
+//								System.out.println("Error reading file '" + filePath + "'");
+							}
+						}
+					}
+				} else if (pathToFile.contains("approved")) {
+					
+				} else if (pathToFile.contains("reviewed")) {
+					
+				} 
+				
+				
 				
 			}
 		});
