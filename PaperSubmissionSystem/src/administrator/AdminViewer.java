@@ -181,18 +181,25 @@ public class AdminViewer {
 								}
 								bufferedReader.close();
 								dataOutStream.close();
+								File deleteFile = new File(pathToFile);
+								deleteFile.delete();
+								frame.dispose();
 							} catch (FileNotFoundException ex) {
 //								System.out.println("Unable to open file '" + filePath + "'");
 								ex.printStackTrace();
 							} catch (IOException ex) {
 //								System.out.println("Error reading file '" + filePath + "'");
 							}
+							
+							break;
 						}
 					}
 				} else if (pathToFile.contains("approved")) {
 					
 				} else if (pathToFile.contains("reviewed")) {
-					
+					String name = pathToFile.substring(20, pathToFile.length()-13);
+					System.out.println("author name::::::::" + name);
+					GetFeedback.main(name);
 				} 
 				
 				
