@@ -1,0 +1,177 @@
+Stream cipher
+ - computationally secure version of the OTP
+ - uses something called a PRG to "stretch" short key into long pad
+ THE BAD:
+	- similar secrecy loss if key reused multiple times
+	- mutable: flip bit in ciphertext -> flip bit in plaintext
+ THE GOOD:
+	+ key can be short (relative to message)
+	+ high throughput (PRGs are fast, XOR is fast)
+	+ good for streaming applications
+EXAMPLES: RC4, Salsa&ChaCha; A5/1,A5/2
+  - arc4random is a bad system call for getting crypto-suitable randomness
+
+ - some PRGs let you jump around key stream (e.g., block cipher in CTR mode) -> stateful versions that can support key reuse
+
+Block cipher
+ - different computationally secure encryption technique
+ - operates fixed-size blocks of plaintext (hence the name)
+ - key is roughly same size as plaintext block; modes of operation allow longer plaintexts
+ - key defines (what appears to be) a random permutation on the plaintext blocks
+ THE BAD:
+	- security guarantees might be weak; highly dependent on mode of operation
+	- possibly susceptible to modification (without extra machinery)
+ THE GOOD:
+	- still fast, multiple modes of operation
+	- often implementable in hardware (e.g., AES)
+
+Multimessage security:
+ - Recall "one-time indistinguishability" game:
+     1) Defender generates a secret key k, flips a coin to get b=0 or 1.
+     2) Attacker chooses m0 and m1, sends (m0,m1) them to defender.
+     3) Defender sends Enc(k,mb) to attacker.
+     4) Attacker outputs b', wins if b=b'.
+ - In multi-message (IND-CPA) version, we let attacker probe the defender repeatedly:
+     1) Challenger chooses a random key k, and flips a coin to obtain a bit b.
+     2) Repeat as many times as attacker likes:
+           a. Attacker picks random message m, sends it to defender.
+           b. Defender responds with Enc(k,m).
+     3) Attacker chooses m0 and m1, sends (m0,m1) to defender.
+     4) Defender sends Enc(k,mb) to attacker.
+     5) Attacker outputs b', its guess for b.
+(In the previous notes, I gave a "real-or-random" version of this; they're closely related!)
+
+- In order to be multi-message secure, it is necessary for the scheme to be "randomized". Typically use something called an "initialization vector" to do this.
+    - in stream cipher/ctr mode, skip to stream location indicated by IV and start generating random bits from there...
+    - CBC mode: XOR input to blockcipher with IV
+    - CFP/OFB mode: IV input to block, output XORed with plaintext (difference is the feedback)
+- IMPORTANT: IV must be random, may never be reused!
+
+Chosen ciphertext security:
+ - wish to protect against tampering and attacks on secrecy -- simultaneously!
+ - How do we model this (IND-CCA) game:
+     1) Challenger chooses a random key k, and flips a coin to obtain a bit b.
+     2) Repeat as many times as attacker likes:
+           a1. Attacker picks random message m, sends it to defender.
+           b1. Defender responds with Enc(k,m).
+         OR
+           a2. Attacker picks ciphertext c, sends it to defender.
+           b2. Defender responds with Dec(k,c)
+     3) Attacker chooses m0 and m1, sends (m0,m1) to defender.
+     4) Defender sends C=Enc(k,mb) to attacker.
+     5) Repeat as many times as attacker likes:
+           a1. Attacker picks random message m, sends it to defender.
+           b1. Defender responds with Enc(k,m).
+         OR
+           a2. Attacker picks ciphertext c (!= C), sends it to defender.
+           b2. Defender responds with Dec(k,c)
+                - unless c==C, in which case defender refuses to answer
+     6) Attacker outputs b', its guess for b.
+
+Q: How do we guarantee this notion of secrecy?
+A: Ensure that attacker cannot modify real plaintexts into other valid-looking plaintexts!
+    - make modification detectable, modified ciphertexts undecryptable
+
+Hash functions
+ - hash function takes arbitrary-length input, maps it to a fixed-length output
+    - output is, say, 128 or 256 or 512 bits, regardless of input length
+ - Three properties:
+     - Collision-resistant: Infeasible to find m0!=m1 such that H(m0)=H(m1)
+         - even though many such collisions exist!
+     - Pre-image resistant: Given H(m), no good way to figure out what m was
+         - always easy to *confirm guesses*; hence, H(m) can only "hide" m if m was initiall unpredictable
+         - not *all* of m must be unpredictable: if m=KNOWN||RANDOM, then it should be exactly as easy/hard to learn m as when m=RANDOM
+     - 2nd pre-image resistant: Given both m and H(m), no good way to find m' such that H(m')==H(m)
+         - a second pre-image is just a specific collision...
+
+ - Any change to message m, no matter how small a change, causes a change to H(m)
+    - moreover, change to H(m) appears random and unpredictable
+    - (otherwise, there'd be clever/efficient ways to yield collisions!)
+ - We call H(m) a "hash", "fingerprint", or "digest" of m
+
+Q: What are hash functions good for?
+A: Detecting modifications to underlying message m
+    - particularly when change is "inadvertent"
+    - if hash is stored by defender, then can also handle intentional/malicious changes
+    - (attacker can easily modify message and then produce a new fingerprint, albeit unrelated to the old one)
+
+Q: Can we use hash functions to achieve chosen-ciphertext security?
+A: Yes! Err, no! We can, but we need to convert hash function into some sort of "keyed" hash
+   - A few options:
+     1) Encrypt-and-hash: Ciphertext is the pair c=Enc(k,m) and h(m)
+         - upon decryption, defender checks if hash is correct
+     2) Encrypt-then-hash: Ciphertext is the pair c=Enc(k,m) and h(c)
+         - before decryption, defender checks if hash is correct
+     3) Hash-then-encrypt: Ciphertext is c=Enc(k,m||h(m))
+         - upon decryption, defender checks if hash is correct
+
+Q: Do these ideas work?
+A: They each accomplish something meaningful in certain scenarios...but each has its weaknesses. Refer back to the IND-CCA game:
+   1) easy to confirm or reject hypothesis about m given h(m)
+      - if attacker can perturb Enc(k,m) into Enc(k,m'), easy to also replace h(m) with h(m')
+      - attacker can win "one-time secrecy" game!
+   2) even if attacker does not know m, easy to perturb c and then compute new h(c)
+      - if IND-CCA game is easy without the hash, it's just as easy with the hash!
+      - e.g., consider game w/ a stream cipher
+   3) perturbing Enc(k,m) into Enc(k,m') for arbitrary m,m' means it is possible to perturb Enc(k,m||h(m)) into Enc(k,m'||H(m')), provided attacker knows m
+      - IND-CCA game is still easy!
+
+Message-authentication codes (MACs):
+  - think of a MAC as a hash function with a secret key
+  - without the key, it is infeasible to guess how the fingerprint of m might look
+  - the output of a MAC is called a "tag" on the message
+  - also, learning m and MAC(k,m) does not help you learn k -> no way to use knowledge of (m,MAC(k,m)) to produce (m',MAC(k,m'))
+
+Q: Can we use hash functions to achieve chosen-ciphertext security?
+A: We sure can!
+   - A few options:
+     1) Encrypt-and-MAC: Ciphertext is the pair c=Enc(k,m) and MAC(k,m)
+         - upon decryption, defender checks if MAC is correct
+         - DON'T DO THIS! In practice, many MACs effectively hide message; however, this is not a design goal for MACs and should not be relied upon!
+     2) Encrypt-then-MAC: Ciphertext is the pair c=Enc(k,m) and MAC(k,c)
+         - before decryption, defender checks if hash is correct
+         - this is secure IF DONE PROPERLY: be sure to MAC both the IV and some meta-information about which blockcipher, mode of operation, etc. is being used
+     3) MAC-then-encrypt: Ciphertext is c=Enc(k,m||MAC(k,m))
+         - upon decryption, defender checks if hash is correct
+         - this is secure IF DONE PROPERLY: be careful with padding, as timing attacks are a real problem
+
+Encoding passwords:
+Q: How should we save passwords?
+A1: Encrypt with a stream cipher?
+  + fingerprint same length as password (good for efficiency)
+  - fingerprint is same length as password (which then leaks to attacker)
+  - same password -> same fingerprint (trivial to determine which accounts use common passwords)
+  + server can decrypt passwords (useful for recovery)
+  - server can decrypt passwords (attacker who steals both password file and key can, too)!
+A2: With a block cipher
+  - fingerprint size still depends on password length, but now padded to multiple of blocksize
+  - depending on mode of operation, repeated passwords (or portions thereof) may produce repeated fingerprints (or portions thereof)
+  + related password but random IV -> unrelated fingerprints (!!)
+  + server can decrypt passwords (useful for recovery)
+  - server can decrypt passwords (attacker who steals both password file and key can, too)!
+A3: With a MAC
+  + fingerprint size reveals nothing about password length
+  - MACs do not attempt to hide passwords!
+  - repeated passwords will yield repeated MACs
+A4: With a hash function
+  + fingerprint size reveals nothing about password length
+  - repeated passwords will yield repeated MACs
+  + no good way to map fingerprints back to passwords (other than brute force)
+  - hash functions are super-fast by design -> brute-force attacks are fast too
+
+Notice that A2 and A4 have different desirable properties:
+  + block ciphers + random IV obscure repeated/related passwords; however, existence of a decryption key is problematic
+  + hash function hides length and lacks a decryption key; however, leaks presence of repeated passwords (and brute force attacks are fast)
+
+Q: Can we somehow combine the two, getting the benefits of each.
+A: Indeed: use a "salt"!
+ - Salt is a random nonce, say 128 bits long.
+ - Password fingerprint is then (salt,h(salt||password))
+   - now repeated passwords yield apparently unrelated fingerprints different, due to different salts!
+   - still no decryption key, so best attack is brute force
+   - alas, brute force attacks against a given user are still fast (if password is weak)
+
+Idea: what if we apply the hash several times?
+  If fingerprint is (salt,H(H(H(H(H(salt||password)))))), then brute force (and legitimate authentication) slowed down by a factor 5! This is still fast enough for legitimate use, but raises the bar for attacker...
+  - in practice, probably want to use *thousands* of iterations of hash function
+  - Bcrypt, Scrypt, argon2: Variants of salted hash that are designed to resist brute force attacks by slowing down each guess, limiting attacker's ability to guess in parallel, etc.

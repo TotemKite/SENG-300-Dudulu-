@@ -108,18 +108,35 @@ public class AssignReviewer {
 		String line = null;
 		while (!flag) {
 			try {
+				File folder = new File("ci");
+				File[] listOfFiles = folder.listFiles();
+				boolean conflict = false;
+
+				for(File f:listOfFiles) {
+					if(f.getName().equals(filePath)) {
+						conflict = true;
+						break;
+					}
+				}
+				if(!conflict)
+					filePath = "resources/reviewers.txt";
 				// FileReader reads text files in the default encoding.
 				FileReader fileReader = new FileReader(filePath);
 
 				// Always wrap FileReader in BufferedReader.
 				BufferedReader bufferedReader = new BufferedReader(fileReader);
-
 				while ((line = bufferedReader.readLine()) != null) {
-					model.addElement(line);
+					if(conflict) {
+						model.addElement(line);
+					} else{
+						String[] token = line.split(";");
+						model.addElement(token[0]);
+					}
+
 				}
 				bufferedReader.close();
 			} catch (FileNotFoundException ex) {
-				System.out.println("Unable to open file '" + filePath + "'");
+				
 			} catch (IOException ex) {
 				System.out.println("Error reading file '" + filePath + "'");
 			}
@@ -151,7 +168,7 @@ public class AssignReviewer {
 //					System.out.println("Unable to open file '" + filePath + "'");
 					ex.printStackTrace();
 				} catch (IOException ex) {
-					System.out.println("Error reading file '" + filePath + "'");
+//					System.out.println("Error reading file '" + filePath + "'");
 				}
 			}
 		});

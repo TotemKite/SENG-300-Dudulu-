@@ -120,7 +120,7 @@ public class UploadFile {
 					File curFile = new File(readPath.trim());
 					fileName = curFile.getName();
 					
-					writePath = journalpathfornow +username +"_"+"unread"+".txt"+"\\";
+					writePath = journalpathfornow +username +"_"+"unread"+".txt";
 					if(uploadFile(readPath, writePath) == -1){
 						JOptionPane.showMessageDialog(null, "The file is not existed!", "Error", JOptionPane.ERROR_MESSAGE);
 					}

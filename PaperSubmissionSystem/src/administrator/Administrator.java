@@ -9,23 +9,25 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.SwingConstants;
+import javax.swing.ListSelectionModel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 
 public class Administrator {
-	private JFrame frame;
 	JTable unreadTable;
 	JTable pendingTable;
 	File[] pendingFiles;
@@ -34,6 +36,12 @@ public class Administrator {
 	JTable approvedTable;
 	File[] approvedFiles;
 	JTable deadlineTable;
+	private int selected;
+	private JFrame frame;
+	private String unreadPath;
+	private String pendingPath;
+	private String reviewedPath;
+	private String approvedPath;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -49,6 +57,15 @@ public class Administrator {
 	}
 
 	public Administrator() {
+		this.selected = 0;
+		this.unreadTable = null;
+		this.pendingTable = null;
+		this.reviewedTable = null;
+		this.approvedTable = null;
+		this.unreadPath = "submissions/unread";
+		this.pendingPath = "submissions/pending";
+		this.reviewedPath = "submissions/reviewed";
+		this.approvedPath = "submissions/approved";
 		initialize();
 	}
 	
@@ -57,12 +74,12 @@ public class Administrator {
 		frame.getContentPane().setBackground(Color.PINK);
 		frame.setTitle("Administrator");
 		frame.setResizable(false);
-		frame.setBounds(200, 200, 650, 600);
+		frame.setBounds(200, 200, 600, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 		JMenuItem logout = new JMenuItem("Logout");
-		menuBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		menuBar.setLayout(new FlowLayout(FlowLayout.CENTER));
 		menuBar.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		menuBar.add(logout);
 		logout.addActionListener(new ActionListener() {
@@ -77,86 +94,88 @@ public class Administrator {
 		
 		// Unread Papers Tab
 		JPanel unread = new JPanel();
-		JButton btnGetUnassigned = new JButton("Load Unread Papers");
+		this.unreadTable = getTable(this.unreadPath);
+		JButton btnGetUnassigned = new JButton("View Unread Papers");
 		btnGetUnassigned.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnGetUnassigned.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JTable unreadTable = getUnread();
-				unreadTable.setVisible(true);
-				unread.add(unreadTable);
-			}
-		});
-		JButton btnSetPending = new JButton("Set Selected As Pending");
-		btnSetPending.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnSetPending.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				System.out.print("Selected files will be transferred to Pending");
+				int index = getSelected();
+				try {
+					viewUnread(index);
+					frame.setVisible(true);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		unread.add(btnGetUnassigned);
-		unread.add(btnSetPending);
-		tabbedPane.addTab("Unassigned", null, unread, null);
+		unread.add(new JSeparator(JSeparator.HORIZONTAL));
+		unread.add(this.unreadTable);
+		tabbedPane.addTab("Unread", null, unread, null);
 		
 		// Pending Papers Tab
 		JPanel pending = new JPanel();
-		JButton btnGetPending = new JButton("Load Papers Pending Review");
+		this.pendingTable = getTable(this.pendingPath);
+		JButton btnGetPending = new JButton("View Pending Papers");
 		btnGetPending.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnGetPending.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JTable pendingTable = getPending();
-				pendingTable.setVisible(true);
-				pending.add(pendingTable);
-			}
-		});
-		JButton btnSetReviewed = new JButton("Set Selected As Reviewed");
-		btnSetReviewed.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnSetReviewed.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				System.out.print("Selected files will be transferred to Reviewed");
+				int index = getSelected();
+				try {
+					viewPending(index);
+					frame.setVisible(true);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		pending.add(btnGetPending);
-		pending.add(btnSetReviewed);
+		pending.add(new JSeparator(JSeparator.HORIZONTAL));
+		pending.add(this.pendingTable);
 		tabbedPane.addTab("Pending", null, pending, null);
 		
 		// Reviewed Papers Tab
 		JPanel reviewed = new JPanel();
-		JButton btnGetReviewed = new JButton("Load Reviewed Papers");
+		this.reviewedTable = getTable(this.reviewedPath);
+		JButton btnGetReviewed = new JButton("View Reviewed Papers");
 		btnGetReviewed.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnGetReviewed.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JTable reviewedTable = getReviewed();
-				reviewedTable.setVisible(true);
-				reviewed.add(reviewedTable);
-			}
-		});
-		JButton btnSetApproved = new JButton("Set Selected As Approved");
-		btnSetApproved.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnSetApproved.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				System.out.print("Selected files will be transferred to Approved");
+				int index = getSelected();
+				try {
+					viewReviewed(index);
+					frame.setVisible(true);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		reviewed.add(btnGetReviewed);
-		reviewed.add(btnSetApproved);
+		reviewed.add(new JSeparator(JSeparator.HORIZONTAL));
+		reviewed.add(this.reviewedTable);
 		tabbedPane.addTab("Reviewed", null, reviewed, null);
 		
 		// Approved Papers Tab
 		JPanel approved = new JPanel();
-		JButton btnGetApproved = new JButton("Get Approved Papers");
+		this.approvedTable = getTable(this.approvedPath);
+		JButton btnGetApproved = new JButton("View Approved Papers");
 		btnGetApproved.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnGetApproved.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JTable approvedTable = getApproved();
-				approvedTable.setVisible(true);
-				approved.add(approvedTable);
+				int index = getSelected();
+				try {
+					viewApproved(index);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		approved.add(btnGetApproved);
+		approved.add(this.approvedTable);
 		tabbedPane.addTab("Approved", null, approved, null);
 		
 		JPanel deadlines = new JPanel();
-		JButton btnSetDeadline = new JButton("Set Deadlines");
+		JButton btnSetDeadline = new JButton("Set/Change Deadlines for Review");
 		btnSetDeadline.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnSetDeadline.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -167,44 +186,94 @@ public class Administrator {
 		tabbedPane.addTab("Deadlines", null, deadlines, null);
 	}
 	
-	private JTable getUnread() {
-		File unreadPath = new File("submissions/unread");
-		JTable unreadTable = new JTable(new CustomFileTable(unreadPath));
-		unreadTable.setAutoCreateRowSorter(true);
-		unreadTable.setGridColor(Color.YELLOW);
-		unreadTable.setBackground(Color.CYAN);
-		unreadTable.setVisible(true);
-		return unreadTable;
+	public void setSelected(int pick) {
+		this.selected = pick;
 	}
 	
-	private JTable getPending() {
-		File pendingPath = new File("submissions/pending");
-		JTable pendingTable = new JTable(new CustomFileTable(pendingPath));
-		pendingTable.setAutoCreateRowSorter(true);
-		pendingTable.setGridColor(Color.YELLOW);
-		pendingTable.setBackground(Color.CYAN);
-		pendingTable.setVisible(true);
-		return pendingTable;
+	public int getSelected() {
+		return this.selected;
 	}
 	
-	private JTable getReviewed() {
-		File reviewedPath = new File("submissions/reviewed");
-		JTable reviewedTable = new JTable(new CustomFileTable(reviewedPath));
-		reviewedTable.setAutoCreateRowSorter(true);
-		reviewedTable.setGridColor(Color.YELLOW);
-		reviewedTable.setBackground(Color.CYAN);
-		reviewedTable.setVisible(true);
-		return reviewedTable;
+	public void viewUnread(int index) throws IOException {
+		File origin = new File(this.unreadPath);
+		String[] originals = origin.list();
+		File viewing = new File(origin, originals[index]);
+		File destination = new File(this.pendingPath);
+//		String[] dests = destination.list();
+//		File saving = new File(destination, dests[index]);
+		AdminViewer.renderFile(viewing.getPath(), destination.getPath());
 	}
 	
-	private JTable getApproved() {
-		File approvedPath = new File("submissions/approved");
-		JTable approvedtable = new JTable(new CustomFileTable(approvedPath));
-		approvedtable.setAutoCreateRowSorter(true);
-		approvedtable.setGridColor(Color.YELLOW);
-		approvedtable.setBackground(Color.CYAN);
-		approvedtable.setVisible(true);
-		return approvedtable;
+	public void viewPending(int index) throws IOException {
+		File origin = new File(this.pendingPath);
+		String[] originals = origin.list();
+		File viewing = new File(origin, originals[index]);
+		File destination = new File(this.reviewedPath);
+//		String[] dests = destination.list();
+//		File saving = new File(destination, dests[index]);
+		AdminViewer.renderFile(viewing.getPath(), destination.getPath());
+	}
+	
+	public void viewReviewed(int index) throws IOException {
+		File origin = new File(this.reviewedPath);
+		String[] originals = origin.list();
+		File viewing = new File(origin, originals[index]);
+		File destination = new File(this.approvedPath);
+//		String[] dests = destination.list();
+//		File saving = new File(destination, dests[index]);
+		AdminViewer.renderFile(viewing.getPath(), destination.getPath());
+	}
+	
+	public void viewApproved(int index) throws IOException {
+		File dir = new File(this.approvedPath);
+	    String[] filenames = dir.list();
+	    File viewing = new File(dir, filenames[index]);
+	    AdminViewer.renderFile(viewing.getPath(), viewing.getPath());
+	}
+	
+	private JTable getTable(String path) {
+		int choice = 0;
+		File dir = new File(path);
+		JTable table = new JTable(new CustomFileTable(dir));
+		SelectionListener listener = new SelectionListener(table, choice);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.getSelectionModel().addListSelectionListener(listener);
+		table.getColumnModel().getColumn(0).setPreferredWidth(100);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+		table.setRowSelectionAllowed(true);
+		table.setAutoCreateRowSorter(true);
+		table.setGridColor(Color.YELLOW);
+		table.setBackground(Color.PINK);
+		table.setRowHeight(25);
+		table.setVisible(true);
+		return table;
+	}
+	
+	class SelectionListener implements ListSelectionListener {
+		JTable table;
+		int index;
+		
+		SelectionListener(JTable table, int index) {
+			super();
+			this.table = table;
+		}
+		
+		public void valueChanged(ListSelectionEvent evt) {
+			int pick;
+			if (evt.getValueIsAdjusting()) {
+				return;
+			}
+			if (evt.getSource() == table.getSelectionModel()
+				&& table.getRowSelectionAllowed()) {
+				pick = evt.getLastIndex();
+				this.index = pick;
+				setSelected(pick);
+			}
+		}
+		
+		public int getChosen() {
+			return this.index;
+		}
 	}
 	
 	class CustomFileTable extends AbstractTableModel {
@@ -213,9 +282,10 @@ public class Administrator {
 	    private String[] filenames;
 	    public File[] selectedFiles;
 	    private Class<?>[] columnClasses = Constants.COLUMN_CLASSES;
-	    private String[] columnNames = new String[] {"Chosen", "FileName", "FileSize", "Author", "Readable?", "Writable?", "Last Modified"};
+	    private String[] columnNames = new String[] {"FileName", "FileSize", "Author", "Readable?", "Writable?", "Last Modified"};
 	 
 	    public CustomFileTable(File dir) {
+	    	super();
 	        this.dir = dir;
 	        this.filenames = dir.list();
 	    }
@@ -241,23 +311,6 @@ public class Administrator {
 	        File f = new File(dir, filenames[row]);
 	        TableColumn tableColumn = TableColumn.fromIndex(col);
 	        switch (tableColumn) {
-	        case CHOSEN:
-	        	JCheckBox rowcheckbox = new JCheckBox();
-	        	rowcheckbox.setHorizontalAlignment(SwingConstants.CENTER);
-	        	rowcheckbox.setBackground(Color.white);
-	        	rowcheckbox.addActionListener(new ActionListener() {
-	        		public void actionPerformed(ActionEvent arg0) {
-	        			System.out.println("Checked");
-	        			if (rowcheckbox.isSelected()) {
-		        			rowcheckbox.setSelected(true);
-		        			selectedFiles = selectThisFile(f);
-	        			} else {
-	        				rowcheckbox.setSelected(false);
-	        				selectedFiles = unselectThisFile(f);
-	        			}
-	        		}
-	        	});
-	        	return rowcheckbox.isSelected() ? Boolean.TRUE : Boolean.FALSE;
 	    	case NAME:
 	    		return filenames[row];
 	    	case SIZE:
@@ -265,9 +318,9 @@ public class Administrator {
 	    	case AUTHOR:
 	    		return "Author".concat("_" + row);
 	        case READABLE:
-	            return f.canRead() ? Boolean.TRUE : Boolean.FALSE;
+	            return f.canRead() ? "READ": "N/A";
 	        case WRITABLE:
-	            return f.canWrite() ? Boolean.TRUE : Boolean.FALSE;
+	            return f.canWrite() ? "WRITE" : "N/A";
 	        case LAST_MODIFIED:
 	            return new Date(f.lastModified());
 	        default:
@@ -299,13 +352,12 @@ public class Administrator {
 	}
     	
     enum TableColumn {
-    	CHOSEN(0, "Chosen"),
-        NAME(1, "FileName"),
-        SIZE(2, "FileSize"),
-        AUTHOR(3, "Author"),
-        READABLE(4, "Readable?"),
-        WRITABLE(5, "Writable?"),
-        LAST_MODIFIED(6, "Last Modified");
+        NAME(0, "FileName"),
+        SIZE(1, "FileSize"),
+        AUTHOR(2, "Author"),
+        READABLE(3, "Readable?"),
+        WRITABLE(4, "Writable?"),
+        LAST_MODIFIED(5, "Last Modified");
      
         private TableColumn(int index, String name) {
             this.index = index;
@@ -338,12 +390,11 @@ public class Administrator {
 	
     static class Constants {
         public static final Class<?>[] COLUMN_CLASSES = new Class[] {
-    		Boolean.class,
     		String.class,
             Long.class,
             String.class,
-            Boolean.class,
-            Boolean.class,
+            String.class,
+            String.class,
             Date.class,
         };
         public final static String NIMBUS_LF = "Nimbus";
