@@ -181,7 +181,7 @@ public class Login_S {
 				String selection = group.getSelection().getActionCommand();
 				if (selection == "reviewer") {
 					if (checker(username, password, ReviewersInfoPath) == true) {
-						Reviewer.main(null);
+						Reviewer.main(username);
 						
 					}
 				}

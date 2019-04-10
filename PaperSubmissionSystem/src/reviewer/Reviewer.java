@@ -35,15 +35,15 @@ import javax.swing.JTextArea;
 public class Reviewer {
 
 	private JFrame frame;
-	private String journalpathfornow ="src/test.txt" ;
 	
 	private CardLayout cl = new CardLayout();
 	private JPanel basePanel = new JPanel(new CardLayout());
-
+	private static String name;
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main(String username) {
+		name = username;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -109,13 +109,15 @@ public class Reviewer {
 		cl = (CardLayout)(basePanel.getLayout());
 		
 		JList list = new JList(model);
-		File folder = new File("journal_author");
+		File folder = new File("submissions/pending/");
 		File[] listOfFiles = folder.listFiles();
 
 		for (int i = 0; i < listOfFiles.length; i++) {
 		  if (listOfFiles[i].isFile()) {
+			if(listOfFiles[i].getName().contains(name)) {
 		    System.out.println("File " + listOfFiles[i].getName());
 		    model.addElement(listOfFiles[i].getName());
+			}
 		  } else if (listOfFiles[i].isDirectory()) {
 //		    System.out.println("Directory " + listOfFiles[i].getName());
 		  }
@@ -214,7 +216,7 @@ public class Reviewer {
 		panel.add(scroll);
 		frame.add(panel);
 		try {
-			FileReader reader = new FileReader( "journal_author/" + fileName);
+			FileReader reader = new FileReader( "submissions/pending/" + fileName);
 			BufferedReader br = new BufferedReader(reader);
 			textArea.read(br, null);
 			br.close();
