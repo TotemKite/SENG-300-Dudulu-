@@ -1,5 +1,6 @@
 package author;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -102,6 +103,7 @@ public class ConflictofInterst {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 550, 500);
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		frame.getContentPane().setBackground(Color.PINK);
 		JList list = new JList();
 		list.setBounds(44, 57, 149, 322);
 

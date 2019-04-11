@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.UIManager;
 import java.awt.CardLayout;
+import java.awt.Color;
 
 public class ViewJournalNames {
 
@@ -55,6 +56,7 @@ public class ViewJournalNames {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setBackground(Color.PINK);
 		DefaultListModel<String> model = new DefaultListModel<>();
 		
 		JPanel panel = new JPanel(new CardLayout());

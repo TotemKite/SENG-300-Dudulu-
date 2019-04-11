@@ -1,8 +1,4 @@
-456;567
-cgwe@qq.com;123
-momo;123
-41;41
-789;789
-Christianmok;123
-Mok;1562227
-Mok;1562227
+yifei.chen@ucalgary.ca;yifei
+qingyue.zhu@ucalgary.ca;qingyue
+christ@ucalgary.ca;christ
+wang.xi@ucalgary.ca;wang

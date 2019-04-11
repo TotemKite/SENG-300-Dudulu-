@@ -23,10 +23,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
@@ -35,15 +37,17 @@ import javax.swing.JTextArea;
 public class Reviewer {
 
 	private JFrame frame;
-	private String journalpathfornow ="src/test.txt" ;
 	
 	private CardLayout cl = new CardLayout();
 	private JPanel basePanel = new JPanel(new CardLayout());
-
+	private static String name;
+	private boolean reviewedMajor;
+	private boolean reviewedMinor;
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main(String username) {
+		name = username;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -109,13 +113,15 @@ public class Reviewer {
 		cl = (CardLayout)(basePanel.getLayout());
 		
 		JList list = new JList(model);
-		File folder = new File("journal_author");
+		File folder = new File("submissions/pending/");
 		File[] listOfFiles = folder.listFiles();
 
 		for (int i = 0; i < listOfFiles.length; i++) {
 		  if (listOfFiles[i].isFile()) {
+			if(listOfFiles[i].getName().contains(name)) {
 		    System.out.println("File " + listOfFiles[i].getName());
 		    model.addElement(listOfFiles[i].getName());
+			}
 		  } else if (listOfFiles[i].isDirectory()) {
 //		    System.out.println("Directory " + listOfFiles[i].getName());
 		  }
@@ -146,7 +152,9 @@ public class Reviewer {
 	
 	public JPanel readJournal(String fileName) {
 		JPanel wholePanel = new JPanel();
-
+		reviewedMajor = false;
+		reviewedMinor = false;
+		
 		JTextArea textArea_1 = new JTextArea();
 		
 		JLabel lblNewLabel = new JLabel("Hello Reviewer!");
@@ -160,13 +168,13 @@ public class Reviewer {
 				fb.getFrame().setVisible(true);
 				
 				String fbs = textArea_1.getText();
-				System.out.println(fbs);
 				
 				try {
-					FileOutputStream out = new FileOutputStream("feedback/"+fileName.substring(0, fileName.length()-4)+"_Major.txt");
+					FileOutputStream out = new FileOutputStream("feedback/"+fileName.substring(0, fileName.length()-13-name.length())+"_Major.txt");
 					out.write(fbs.getBytes());
 					out.close();
 					textArea_1.setText(null);
+					reviewedMajor = true;
 				} catch(FileNotFoundException e){
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -184,9 +192,10 @@ public class Reviewer {
 				String fbs = textArea_1.getText();
 				
 				try {
-					FileOutputStream out = new FileOutputStream("feedback/"+fileName.substring(0, fileName.length()-4)+"_Minor.txt");
+					FileOutputStream out = new FileOutputStream("feedback/"+fileName.substring(0, fileName.length()-13-name.length())+"_Minor.txt");
 					out.write(fbs.getBytes());
 					out.close();
+					reviewedMinor = true;
 					textArea_1.setText(null);
 				} catch(FileNotFoundException e){
 					e.printStackTrace();
@@ -195,6 +204,8 @@ public class Reviewer {
 				}
 			}
 		});
+		
+		
 
 		JLabel lblFeedback = new JLabel("Feedback:");
 		lblFeedback.setForeground(Color.BLUE);
@@ -214,7 +225,7 @@ public class Reviewer {
 		panel.add(scroll);
 		frame.add(panel);
 		try {
-			FileReader reader = new FileReader( "journal_author/" + fileName);
+			FileReader reader = new FileReader( "submissions/pending/" + fileName);
 			BufferedReader br = new BufferedReader(reader);
 			textArea.read(br, null);
 			br.close();
@@ -226,6 +237,32 @@ public class Reviewer {
 		JButton backButton = new JButton("GO BACK");
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(reviewedMinor && reviewedMajor){
+					System.out.println("!!!!");
+					cl.show(basePanel, "List Panel");
+					String line = null;
+					String oldPath = "submissions/pending/"+fileName;
+					String newPath = "submissions/reviewed/"+fileName.substring(0, fileName.length()-13-name.length())+"_reviewed.txt";
+					try {
+					FileReader fileReader = new FileReader(oldPath);
+					// Always wrap FileReader in BufferedReader.
+					BufferedReader bufferedReader = new BufferedReader(fileReader);
+					BufferedWriter Writer = new BufferedWriter(new FileWriter(new File(newPath)));
+					while ((line = bufferedReader.readLine()) != null) {
+						Writer.write(line);
+						Writer.newLine();
+					}
+					Writer.close();
+					bufferedReader.close();
+					} catch (FileNotFoundException ex) {
+//						System.out.println("Unable to open file '" + filePath + "'");
+						ex.printStackTrace();
+					} catch (IOException ex) {
+//						System.out.println("Error reading file '" + filePath + "'");
+					}
+				}
+				File deleteFile = new File("submissions/pending/" + fileName);
+				deleteFile.delete();
 				cl.show(basePanel, "List Panel");
 			}
 		});

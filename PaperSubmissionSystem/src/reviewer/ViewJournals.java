@@ -74,6 +74,7 @@ public class ViewJournals {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setBackground(Color.PINK);
 		
 		JPanel panel = new JPanel();
 		JTextArea txt = new JTextArea(30, 30);

@@ -1,5 +1,6 @@
 package administrator;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -55,6 +56,7 @@ public class Deadline {
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		frame.getContentPane().setBackground(Color.PINK);
 		
 		date = new JTextField();
 		date.setBounds(181, 66, 105, 30);
@@ -79,10 +81,8 @@ public class Deadline {
 					FileOutputStream out = new FileOutputStream("deadline_info/deadlineforJournal1.txt");
 					out.write(deadline.getBytes());
 					out.close();
-					File f = new File("resources/Deadline.txt");
-					if(f.exists()) {
-						JOptionPane.showMessageDialog(btnEnsure, "The deadline has been assigned successfully!");
-					}
+					JOptionPane.showMessageDialog(btnEnsure, "The deadline has been assigned successfully!");
+					frame.dispose();
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

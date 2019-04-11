@@ -40,7 +40,7 @@ public class UploadFile {
 	private String datetime = tempDate.format(new java.util.Date());
 	private String deadline = "";
 	private String Deadlineinfo = "deadline_info/deadlineforJournal1.txt";
-	private String journalpathfornow ="journal_author/" ;
+	private String journalpathfornow ="submissions/unread/" ;
 	private JButton btnConflictOfInterest;
 	private static String username;
 	/**
@@ -120,7 +120,7 @@ public class UploadFile {
 					File curFile = new File(readPath.trim());
 					fileName = curFile.getName();
 					
-					writePath = journalpathfornow +username +".txt"+"\\";
+					writePath = journalpathfornow +username +"_"+"unread"+".txt";
 					if(uploadFile(readPath, writePath) == -1){
 						JOptionPane.showMessageDialog(null, "The file is not existed!", "Error", JOptionPane.ERROR_MESSAGE);
 					}
@@ -130,6 +130,7 @@ public class UploadFile {
 					Fail fa = new Fail();
 					fa.FailScreen();
 				}
+				UploadF.dispose();
 			}
 		});
 		submitButton.setFont(new Font("Dialog", Font.PLAIN, 20));
