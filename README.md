@@ -1,2 +1,3 @@
 # SENG-300-Dudulu-
-Basic version of the System for iteration three
+Before you run this program, empty the files inside submissions
+reminder to keep all the empty folders inside submissions (unread, pending, reviewed, approved)
